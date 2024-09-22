@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+cd English-Puzzle-App
+npm run pre-commit
