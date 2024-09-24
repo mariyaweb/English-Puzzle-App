@@ -1,9 +1,4 @@
-import {
-  ElementAttributes,
-  ElementCallback,
-  ElementParams,
-  ElementStyles,
-} from './base-element-types';
+import { ElementAttributes, ElementCallback, ElementParams, ElementStyles } from './base-element-types';
 
 export default class BaseElement<T extends HTMLElement = HTMLElement> {
   private childrenArr: BaseElement[] = [];
@@ -24,11 +19,8 @@ export default class BaseElement<T extends HTMLElement = HTMLElement> {
 
   public addStyles(styles: ElementStyles | undefined): void {
     if (styles) {
-      const cssStyles: string[] =
-        typeof styles === 'string' ? styles.split(' ') : styles;
-      cssStyles.forEach((style: string) =>
-        style ? this.addStyle(style) : null,
-      );
+      const cssStyles: string[] = typeof styles === 'string' ? styles.split(' ') : styles;
+      cssStyles.forEach((style: string) => (style ? this.addStyle(style) : null));
     }
   }
 

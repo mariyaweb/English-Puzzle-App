@@ -1,5 +1,6 @@
 .header__wrapper {
   position: relative;
+  padding: 20px 0 10px 0;
 }
 
 .header__logo {
