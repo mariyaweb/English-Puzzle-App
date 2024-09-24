@@ -1,0 +1,11 @@
+.start__btn {
+  width: 140px;
+  height: 50px;
+  border-radius: 8px;
+  background: var(--btn-dark-bg-color);
+  color: var(--light-text-color);
+}
+
+.start__btn:hover {
+  background: var(--btn-active-color);
+}

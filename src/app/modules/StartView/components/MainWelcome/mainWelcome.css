@@ -1,0 +1,6 @@
+.main__welcome {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 130%;
+  color: var(--accent-color);
+}

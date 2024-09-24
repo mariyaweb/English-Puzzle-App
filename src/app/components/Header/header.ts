@@ -1,5 +1,5 @@
-import BaseElement from "../../ui/base-element/base-element";
-import { div, header, img } from "../../ui/base-tags/base-tags";
+import BaseElement from '../../ui/base-element/base-element';
+import { div, img } from '../../ui/base-tags/base-tags';
 import logoImage from '../../../assets/logo.svg';
 import './header.css';
 
@@ -10,10 +10,9 @@ export default class Header extends BaseElement {
     super({ tag: 'header', styles: ['header'] });
     this.logout = div({ styles: ['header__logout', 'hidden'] });
     this.render();
-
   }
 
-  addLogo() {
+  private addLogo() {
     const logoContainer = div({ styles: ['logo', 'header__logo'] });
     const logo = img();
     logo.setAttribute('src', logoImage);
@@ -22,7 +21,7 @@ export default class Header extends BaseElement {
     return logoContainer;
   }
 
-  render() {
+  private render() {
     const wrapper = div({ styles: ['wrapper', 'header__wrapper'] });
     const logo = this.addLogo();
     wrapper.addChildren([logo, this.logout]);

@@ -1,0 +1,13 @@
+.start__slogan {
+  width: 100%;
+  max-width: 630px;
+  height: 95px;
+  background: url('../../../../../assets/img/slogan.png') no-repeat center / 90% auto;
+  flex-shrink: 1;
+}
+
+@media (max-width: 580px) {
+  .start__slogan {
+    background: url('../../../../../assets/img/sloganSmall.png') no-repeat center / contain;
+  }
+}

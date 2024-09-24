@@ -1,0 +1,55 @@
+.start {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 60px;
+  height: 100%;
+  overflow: hidden;
+}
+
+.start__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 40px;
+  gap: 25px;
+}
+
+.start__decor {
+  position: relative;
+}
+
+.start__woman {
+  position: absolute;
+  left: 28%;
+  top: -30%;
+}
+
+@media (max-width: 860px) {
+  .start__woman {
+    left: 32%;
+  }
+}
+
+@media (max-width: 720px) {
+  .start__woman {
+    max-width: 360px;
+    left: 36%;
+  }
+
+  .start__woman img {
+    width: 100%;
+  }
+}
+
+@media (max-width: 540px) {
+  .start__woman {
+    top: -20%;
+    left: 40%;
+  }
+}
+
+.start__woman.hide {
+  visibility: hidden;
+}

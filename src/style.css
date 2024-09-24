@@ -1,0 +1,67 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+  color: var(--main-text-color);
+}
+
+:root {
+  --main-text-color: #071f54;
+  --medium-text-color: #527df0;
+  --light-text-color: #ffffff;
+  --light-bg-color: #424867;
+  --dark-bg-color: #303650;
+  --accent-color: #ee1aac;
+  --btn-disabled-color: #a4b4f7;
+  --btn-active-color: #527df0;
+  --btn-dark-bg-color: #3f72ee;
+  --btn-light-text-color: #fff;
+}
+
+h1 {
+  font-family: 'Nunito', sans-serif;
+}
+
+input {
+  outline: none;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wrapper {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 100vh;
+}
+
+@media (max-width: 640px) {
+  .app {
+    gap: 0px;
+  }
+}
+
+.main {
+  height: 100%;
+  width: 100%;
+}
+
+.btn {
+  cursor: pointer;
+  border: none;
+  font-family: 'Nunito', sans-serif;
+  font-size: 18px;
+}
