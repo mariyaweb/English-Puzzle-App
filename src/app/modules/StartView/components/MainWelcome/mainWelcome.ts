@@ -6,7 +6,7 @@ export default class MainWelcome extends BaseElement {
     super({ tag: 'h3', styles: ['main__welcome'] });
   }
 
-  public setName(name: string, surname: string) {
+  public setName(name: string, surname: string): void {
     this.setTextContent(`Hello, ${name} ${surname}!`);
   }
 }

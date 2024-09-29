@@ -1,0 +1,25 @@
+.loginInputs__container {
+  display: flex;
+  flex-direction: column;
+  width: 360px;
+  max-width: 100%;
+  gap: 25px;
+}
+
+.loginInputs__item label {
+  color: var(--medium-text-color);
+  margin-bottom: 8px;
+}
+
+.loginInputs__item input {
+  width: 100%;
+  border: 1px solid var(--btn-active-color);
+  border-radius: 8px;
+  padding: 12px 16px;
+}
+
+.loginInputs__item input:focus {
+  -webkit-box-shadow: 0px 0px 4px 3px rgba(82, 125, 240, 0.1) inset;
+  -moz-box-shadow: 0px 0px 4px 3px rgba(82, 125, 240, 0.1) inset;
+  box-shadow: 0px 0px 4px 3px rgba(82, 125, 240, 0.1) inset;
+}

@@ -20,6 +20,7 @@ export default class StartDecor extends BaseElement {
     this.womanImg.setAttributes({ src: womanImg, alt: 'woman' });
     this.womanImgContainer.append(this.womanImg);
     this.addChildren([this.line, this.womanImgContainer]);
+    this.hideImage();
   }
 
   showImage() {

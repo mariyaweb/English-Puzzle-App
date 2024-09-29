@@ -25,6 +25,12 @@ h1 {
 
 input {
   outline: none;
+  border: none;
+  display: block;
+}
+
+label {
+  display: block;
 }
 
 .btn {
