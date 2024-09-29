@@ -12,7 +12,7 @@ export default class Header extends BaseElement {
     this.render();
   }
 
-  private addLogo() {
+  private addLogo(): BaseElement {
     const logoContainer = div({ styles: ['logo', 'header__logo'] });
     const logo = img();
     logo.setAttribute('src', logoImage);
@@ -21,7 +21,7 @@ export default class Header extends BaseElement {
     return logoContainer;
   }
 
-  private render() {
+  private render(): void {
     const wrapper = div({ styles: ['wrapper', 'header__wrapper'] });
     const logo = this.addLogo();
     wrapper.addChildren([logo, this.logout]);

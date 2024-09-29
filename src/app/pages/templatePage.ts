@@ -19,10 +19,6 @@ export default class TemplatePage extends BaseElement<HTMLDivElement> {
     this.main.append(content);
   }
 
-  addMainContent(content: BaseElement) {
-    this.main.append(content);
-  }
-
   render() {
     this.addChildren([this.header, this.main]);
   }
