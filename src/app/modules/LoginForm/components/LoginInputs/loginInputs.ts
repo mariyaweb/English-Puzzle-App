@@ -14,7 +14,7 @@ export default class LoginInputs extends BaseElement {
     this.addChildren([this.inputName, this.inputSurname]);
   }
 
-  private createTextInput(labelName: string, placeholder: string) {
+  private createTextInput(labelName: string, placeholder: string): BaseElement {
     const inputContainer = div({ styles: ['loginInputs__item'] });
     const inputName = label({
       text: placeholder,
@@ -23,7 +23,7 @@ export default class LoginInputs extends BaseElement {
       },
     });
 
-    const inputField = input({
+    const inputField: BaseElement = input({
       attributes: {
         id: labelName,
         placeholder,

@@ -1,0 +1,4 @@
+.game__settings {
+  display: flex;
+  justify-content: space-between;
+}

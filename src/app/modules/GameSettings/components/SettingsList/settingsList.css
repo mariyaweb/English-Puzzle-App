@@ -1,0 +1,21 @@
+.settings__list {
+  display: flex;
+  gap: 12px;
+}
+
+.settings__btn {
+  width: 24px;
+  height: 24px;
+}
+
+.settings__clue {
+  background: url('../../../../../assets/icons/eye.svg');
+}
+
+.settings__volume {
+  background: url('../../../../../assets/icons/volume.svg');
+}
+
+.settings__picture {
+  background: url('../../../../../assets/icons/image.svg');
+}

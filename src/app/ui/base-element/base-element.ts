@@ -94,16 +94,16 @@ export default class BaseElement<T extends HTMLElement = HTMLElement> {
     this.element.append(element.htmlTag);
   }
 
-  public addChildren(children: BaseElement[]) {
+  public addChildren(children: BaseElement[]): void {
     children.forEach((element: BaseElement) => this.append(element));
   }
 
-  public destroy() {
+  public destroy(): void {
     this.destroyChildren();
     this.element.remove();
   }
 
-  public destroyChildren() {
+  public destroyChildren(): void {
     this.childrenArr.forEach((element: BaseElement) => {
       element.destroy();
     });

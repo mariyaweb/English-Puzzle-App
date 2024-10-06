@@ -1,0 +1,11 @@
+.settings__games {
+  background: none;
+}
+
+.settings__games::before {
+  content: '';
+  width: 24px;
+  height: 24px;
+  background: url(../../../../../assets/icons/list.svg) no-repeat;
+  margin-right: 12px;
+}

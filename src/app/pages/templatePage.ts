@@ -14,12 +14,12 @@ export default class TemplatePage extends BaseElement<HTMLDivElement> {
     this.render();
   }
 
-  setMainContent(content: BaseElement) {
+  public setMainContent(content: BaseElement): void {
     this.main.destroyChildren();
     this.main.append(content);
   }
 
-  render() {
+  private render(): void {
     this.addChildren([this.header, this.main]);
   }
 }

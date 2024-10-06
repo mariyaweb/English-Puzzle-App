@@ -5,7 +5,6 @@ import { mainTitle } from './components/MainTitle/mainTitle';
 import MainWelcome from './components/MainWelcome/mainWelcome';
 import SloganImg from './components/SloganImg/sloganImg';
 import { startBtn } from './components/StartBtn/startBtn';
-import StartDecor from './components/StartDecor/startDecor';
 import './startView.css';
 
 export default class StartView extends BaseElement {
@@ -21,7 +20,7 @@ export default class StartView extends BaseElement {
     this.addChildren([this.content]);
   }
 
-  addWelcome(name: string, surname: string) {
+  private addWelcome(name: string, surname: string): void {
     this.welcome.setName(name, surname);
   }
 }

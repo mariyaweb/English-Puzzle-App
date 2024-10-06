@@ -1,0 +1,25 @@
+.field__header {
+  display: flex;
+  justify-content: space-between;
+  width: var(--desktop-width);
+}
+
+@media (max-width: 980px) {
+  .field__header {
+    width: var(--laptop-width);
+  }
+}
+
+@media (max-width: 860px) {
+  .field__header {
+    width: var(--tablet-width);
+  }
+}
+
+.field__level,
+.field__round {
+  font-family: 'Nunito', sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--light-text-color);
+}

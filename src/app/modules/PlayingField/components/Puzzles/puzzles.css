@@ -1,0 +1,17 @@
+.puzzle {
+  display: flex;
+  color: var(--light-text-color);
+  width: var(--desktop-width);
+}
+
+@media (max-width: 980px) {
+  .puzzle {
+    width: var(--laptop-width);
+  }
+}
+
+@media (max-width: 860px) {
+  .puzzle {
+    width: var(--tablet-width);
+  }
+}
