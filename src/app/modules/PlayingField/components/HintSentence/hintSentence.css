@@ -1,0 +1,34 @@
+.sentence {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 17px 20px;
+  background-color: var(--light-bg-color);
+  border-radius: 14px;
+  width: var(--desktop-width);
+}
+
+@media (max-width: 980px) {
+  .sentence {
+    width: var(--laptop-width);
+  }
+}
+
+@media (max-width: 860px) {
+  .sentence {
+    width: var(--tablet-width);
+  }
+}
+
+.sentence__text {
+  font-family: 'Nunito', sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--light-text-color);
+}
+
+.sentence__audio {
+  width: 18px;
+  height: 18px;
+  background: url('../../../../../assets/icons/mic.svg');
+}

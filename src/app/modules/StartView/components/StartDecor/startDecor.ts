@@ -23,11 +23,11 @@ export default class StartDecor extends BaseElement {
     this.hideImage();
   }
 
-  showImage() {
+  private showImage(): void {
     this.womanImgContainer.removeStyle('hide');
   }
 
-  hideImage() {
+  private hideImage(): void {
     this.womanImgContainer.addStyle('hide');
   }
 }

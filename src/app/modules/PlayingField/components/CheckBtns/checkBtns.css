@@ -1,0 +1,42 @@
+.checkBtns {
+  display: flex;
+  justify-content: space-between;
+  width: var(--desktop-width);
+}
+
+.checkBtns__btn {
+  cursor: pointer;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  transition: all 0.2s linear;
+}
+
+.checkBtns__check {
+  color: var(--light-text-color);
+  background-color: var(--btn-dark-bg-color);
+}
+
+.checkBtns__check:hover {
+  background-color: var(--btn-active-color);
+}
+
+.checkBtns__check.disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.checkBtns__check.disabled:hover {
+  color: var(--light-text-color);
+  background-color: var(--btn-dark-bg-color);
+}
+
+.checkBtns__complete {
+  color: var(--medium-text-color);
+}
+
+.checkBtns__complete:hover {
+  -webkit-box-shadow: 0px 5px 28px 1px rgba(82, 125, 240, 0.32);
+  -moz-box-shadow: 0px 5px 28px 1px rgba(82, 125, 240, 0.32);
+  box-shadow: 0px 5px 28px 1px rgba(82, 125, 240, 0.32);
+}

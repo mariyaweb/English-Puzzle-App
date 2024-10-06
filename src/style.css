@@ -17,6 +17,9 @@
   --btn-active-color: #527df0;
   --btn-dark-bg-color: #3f72ee;
   --btn-light-text-color: #fff;
+  --desktop-width: 900px;
+  --laptop-width: 800px;
+  --tablet-width: 700px;
 }
 
 h1 {
