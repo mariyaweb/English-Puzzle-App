@@ -16,7 +16,7 @@
   --btn-disabled-color: #a4b4f7;
   --btn-active-color: #527df0;
   --btn-dark-bg-color: #3f72ee;
-  --btn-light-text-color: #fff;
+  --btn-light-text-color: #ffffff;
   --desktop-width: 900px;
   --laptop-width: 800px;
   --tablet-width: 700px;
@@ -24,6 +24,10 @@
 
 h1 {
   font-family: 'Nunito', sans-serif;
+}
+
+body {
+  overflow: hidden;
 }
 
 input {
