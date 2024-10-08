@@ -1,0 +1,29 @@
+.select__levels {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0 20px 0 10px;
+  gap: 15px;
+}
+
+.select__btn {
+  padding: 10px;
+  font-family: Nunito, sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  border-radius: 8px;
+  background: var(--light-bg-color);
+  color: var(--btn-light-text-color);
+  flex-grow: 1;
+}
+
+.select__btn:hover {
+  -webkit-box-shadow: 0px 3px 14px 1px rgba(0, 11, 37, 0.3);
+  -moz-box-shadow: 0px 3px 14px 1px rgba(0, 11, 37, 0.3);
+  box-shadow: 0px 3px 14px 1px rgba(0, 11, 37, 0.3);
+}
+
+.select__btn--selected {
+  background: var(--btn-dark-bg-color);
+}

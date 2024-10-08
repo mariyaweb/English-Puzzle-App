@@ -1,5 +1,6 @@
 import { getRoundsInfo } from '../../api/getGameInfo';
 import { IRound } from '../../api/getGameInfo-types';
+import { BASE_IMG_LINK } from '../../const/const';
 import BaseElement from '../../ui/base-element/base-element';
 import CheckBtns from './components/CheckBtns/checkBtns';
 import FieldHeader from './components/FieldHeader/fieldHeader';
@@ -7,8 +8,6 @@ import HintSentence from './components/HintSentence/hintSentence';
 import Puzzle from './components/Puzzles/puzzles';
 import TasksList from './components/TasksList/tasksList';
 import './playingField.css';
-
-const BASE_IMG_LINK = 'https://raw.githubusercontent.com/rolling-scopes-school/rss-puzzle-data/refs/heads/main/images/';
 
 export default class PlayingField extends BaseElement {
   private title: FieldHeader;
