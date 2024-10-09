@@ -42,7 +42,7 @@ export default class PlayingField extends BaseElement {
 
   private async createRound(): Promise<IRound> {
     const res = await getRoundsInfo(this.currentLevel, this.currentRound);
-    this.title.setText(`${this.currentLevel}`, `${res.levelData.name}`, `${this.currentRound}`);
+    this.title.setText(`${this.currentLevel}`, `${res.levelData.name}`, `${this.currentRound + 1}`);
     this.sentence.setText(`${res.words[this.currentRound].textExampleTranslate}`);
     this.puzzle.createPuzzles(`${BASE_IMG_LINK + res.levelData.cutSrc}`, `${res.words[this.currentRound].textExample}`);
     this.tasks.addTaskRow(res.words);
@@ -61,4 +61,11 @@ export default class PlayingField extends BaseElement {
     // active row
     // set new puzzles
   }
+
+  public update = (level: number, round: number): void => {
+    this.currentLevel = level;
+    this.currentRound = round;
+    console.log('update');
+    this.createRound();
+  };
 }

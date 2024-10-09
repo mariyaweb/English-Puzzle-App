@@ -23,4 +23,12 @@ export default class Levels extends BaseElement {
       this.append(btn);
     }
   }
+
+  public updateBtnStyles(activeBtn: HTMLElement): void {
+    this.children.forEach((btn) => {
+      btn.removeStyle('select__btn--selected');
+    });
+
+    activeBtn.classList.add('select__btn--selected');
+  }
 }

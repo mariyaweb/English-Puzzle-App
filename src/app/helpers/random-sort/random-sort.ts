@@ -10,5 +10,4 @@ export function randomSortArr(arr: string[]): string[] | undefined {
   } else {
     return arr;
   }
-
 }

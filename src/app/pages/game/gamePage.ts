@@ -7,10 +7,13 @@ import './gamePage.css';
 export default class GamePage extends BaseElement {
   private wrapper: BaseElement;
 
+  public field: PlayingField;
+
   constructor() {
     super({ tag: 'div', styles: ['game'] });
     this.wrapper = div({ styles: ['game__wrapper', 'wrapper'] });
-    this.wrapper.addChildren([new GameSettings(), new PlayingField()]);
+    this.field = new PlayingField();
+    this.wrapper.addChildren([new GameSettings(), this.field]);
     this.append(this.wrapper);
   }
 }

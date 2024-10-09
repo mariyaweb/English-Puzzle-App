@@ -10,6 +10,7 @@ export default class RoundsList extends BaseElement {
   }
 
   public createRounds(allRounds: IRound[]): void {
+    this.destroyChildren();
     allRounds.forEach((item, idx) => {
       const roundItem = new RoundItem(item.levelData.cutSrc, item.words[0].textExample, idx);
       this.append(roundItem);
