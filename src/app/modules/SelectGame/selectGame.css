@@ -40,19 +40,27 @@
   height: 40px;
   top: 10px;
   right: 5px;
+  cursor: pointer;
 }
 
 .select__close::before,
 .select__close::after {
-  content: '';
+  content: "";
   width: 20px;
   height: 2px;
   background: #6a7093;
   transform: translate(12px, 16px) rotate(45deg);
+  transition: all 0.2s linear;
 }
 
 .select__close::after {
   transform: translate(12px, 28px) rotate(-45deg);
+}
+
+.select__close:hover:before,
+.select__close:hover:after {
+  background: #a9afdc;
+  transition: all 0.2s linear;
 }
 
 .select__title {
