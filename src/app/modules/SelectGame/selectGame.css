@@ -45,7 +45,7 @@
 
 .select__close::before,
 .select__close::after {
-  content: "";
+  content: '';
   width: 20px;
   height: 2px;
   background: #6a7093;

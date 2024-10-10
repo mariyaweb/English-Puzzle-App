@@ -42,3 +42,8 @@
 .puzzle__container:last-child.puzzle__circle {
   right: 0px;
 }
+
+.puzzle--hide .puzzle__item,
+.puzzle--hide .puzzle__circle {
+  background: var(--light-bg-color) !important;
+}

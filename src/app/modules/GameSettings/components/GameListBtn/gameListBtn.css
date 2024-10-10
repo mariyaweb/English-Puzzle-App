@@ -1,5 +1,6 @@
 .settings__games {
   background: none;
+  transition: all 0.2s linear;
 }
 
 .settings__games::before {
@@ -8,4 +9,15 @@
   height: 24px;
   background: url(../../../../../assets/icons/list.svg) no-repeat;
   margin-right: 12px;
+  transition: all 0.2s linear;
+}
+
+.settings__games:hover {
+  color: var(--btn-active-color);
+  transition: all 0.2s linear;
+}
+
+.settings__games:hover.settings__games::before {
+  background: url(../../../../../assets/icons/list_hover.svg) no-repeat;
+  transition: all 0.2s linear;
 }

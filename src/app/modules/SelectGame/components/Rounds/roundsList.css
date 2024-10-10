@@ -9,15 +9,15 @@
   padding: 0 0 0 10px;
 }
 
-::-webkit-scrollbar {
+.rounds::-webkit-scrollbar {
   width: 11px;
 }
 
-::-webkit-scrollbar-track {
+.rounds::-webkit-scrollbar-track {
   background: transparent;
 }
 
-::-webkit-scrollbar-thumb {
+.rounds::-webkit-scrollbar-thumb {
   background: var(--light-bg-color);
   border-radius: 10px;
 }

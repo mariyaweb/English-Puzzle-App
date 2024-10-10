@@ -11,9 +11,18 @@ export default class SettingsList extends BaseElement {
 
   constructor() {
     super({ styles: ['settings__list'] });
-    this.clue = button({ styles: ['settings__btn', 'settings__clue', 'btn'] });
-    this.volume = button({ styles: ['settings__btn', 'settings__volume', 'btn'] });
-    this.picture = button({ styles: ['settings__btn', 'settings__picture', 'btn'] });
+    this.clue = button({
+      styles: ['settings__btn', 'settings__clue', 'btn'],
+      attributes: { 'data-setting': 'clue' },
+    });
+    this.volume = button({
+      styles: ['settings__btn', 'settings__volume', 'btn'],
+      attributes: { 'data-setting': 'volume' },
+    });
+    this.picture = button({
+      styles: ['settings__btn', 'settings__picture', 'btn'],
+      attributes: { 'data-setting': 'picture' },
+    });
     this.addChildren([this.clue, this.volume, this.picture]);
   }
 }

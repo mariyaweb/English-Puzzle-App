@@ -17,6 +17,7 @@ export default class Puzzle extends BaseElement {
   }
 
   public createPuzzles(url: string, sentence: string): void {
+    this.removeOldPuzzles();
     const wordsArr = sentence.split(' ');
     const lettersLength = wordsArr.join('').length;
 
@@ -59,5 +60,12 @@ export default class Puzzle extends BaseElement {
     let moveX = (width * 900) / 100 - 10;
     moveX = this.x - moveX + 10;
     return [moveX, this.circleY];
+  }
+
+  private removeOldPuzzles(): void {
+    this.destroyChildren();
+    this.x = 0;
+    this.y = 0;
+    this.circleY = -15;
   }
 }

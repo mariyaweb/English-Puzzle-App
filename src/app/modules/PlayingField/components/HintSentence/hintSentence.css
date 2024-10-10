@@ -27,8 +27,16 @@
   color: var(--light-text-color);
 }
 
+.sentence__text--hide {
+  opacity: 0;
+}
+
 .sentence__audio {
   width: 18px;
   height: 18px;
   background: url('../../../../../assets/icons/mic.svg');
+}
+
+.sentence__audio--hide {
+  display: none;
 }

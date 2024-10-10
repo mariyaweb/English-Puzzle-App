@@ -26,7 +26,7 @@ export default class SelectGame extends BaseElement {
   public observerManager: EventManager;
 
   constructor() {
-    super({ styles: ['select', 'select--active'] });
+    super({ styles: ['select'] });
     this.close = div({ styles: ['select__close'] });
     this.wrapper = div({ styles: ['select__wrapper'] });
     this.title = h2({ styles: ['select__title'], text: 'Select The Game' });
@@ -56,7 +56,23 @@ export default class SelectGame extends BaseElement {
 
   private closeSelectGame(e: Event): void {
     if (e.target === this.htmlTag || e.target === this.close.htmlTag) {
-      this.removeStyle('select--active');
+      this.closeModal();
+    }
+  }
+
+  private closeModal(): void {
+    this.removeStyle('select--active');
+    const appBody = document.querySelector('app');
+    if (nonNullable(appBody)) {
+      appBody.classList.remove('app--hidden');
+    }
+  }
+
+  public openModal(): void {
+    this.addStyle('select--active');
+    const appBody = document.querySelector('app');
+    if (nonNullable(appBody)) {
+      appBody.classList.add('app--hidden');
     }
   }
 
@@ -68,7 +84,7 @@ export default class SelectGame extends BaseElement {
   }
 
   private changeRound(e: Event): void {
-    this.removeStyle('select--active');
+    this.closeModal();
     const roundCard = e.target as HTMLElement;
     const roundContainer = roundCard.closest('li');
     if (nonNullable(roundContainer)) {

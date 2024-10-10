@@ -14,10 +14,9 @@ export default class App {
 
   constructor() {
     this.page = new TemplatePage();
-    this.game = new GamePage();
     this.selectGame = new SelectGame();
+    this.game = new GamePage(this.selectGame);
     this.selectGame.observerManager.subscribe(this.game.field.update);
-    // this.game.field.observerManager.subscribe(this.selectGame.changeRound)
   }
 
   public run(): void {
