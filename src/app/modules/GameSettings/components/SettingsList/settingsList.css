@@ -6,16 +6,34 @@
 .settings__btn {
   width: 24px;
   height: 24px;
+  transition: all 0.2s ease;
+}
+
+.settings__btn:hover {
+  transform: scale(1.1);
+  transition: all 0.2s ease;
 }
 
 .settings__clue {
   background: url('../../../../../assets/icons/eye.svg');
 }
 
+.settings__clue--hide {
+  background: url('../../../../../assets/icons/eye-hide.svg');
+}
+
 .settings__volume {
   background: url('../../../../../assets/icons/volume.svg');
 }
 
+.settings__volume--hide {
+  background: url('../../../../../assets/icons/volume-off.svg');
+}
+
 .settings__picture {
   background: url('../../../../../assets/icons/image.svg');
+}
+
+.settings__picture--hide {
+  background: url('../../../../../assets/icons/image-hide.svg');
 }

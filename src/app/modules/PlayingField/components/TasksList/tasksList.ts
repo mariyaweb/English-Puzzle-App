@@ -9,6 +9,7 @@ export default class TasksList extends BaseElement {
   }
 
   public addTaskRow(allSentences: IWord[]): void {
+    this.destroyChildren();
     allSentences.forEach((info) => {
       const countWordsInSentence = info.textExample.split(' ').length;
       this.append(new TaskItem(countWordsInSentence));

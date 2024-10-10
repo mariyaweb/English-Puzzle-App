@@ -12,11 +12,11 @@ import './playingField.css';
 export default class PlayingField extends BaseElement {
   private title: FieldHeader;
 
-  private sentence: HintSentence;
+  public sentence: HintSentence;
 
   private tasks: TasksList;
 
-  private puzzle: Puzzle;
+  public puzzle: Puzzle;
 
   private checkBtns: BaseElement;
 
@@ -44,8 +44,10 @@ export default class PlayingField extends BaseElement {
     const res = await getRoundsInfo(this.currentLevel, this.currentRound);
     this.title.setText(`${this.currentLevel}`, `${res.levelData.name}`, `${this.currentRound + 1}`);
     this.sentence.setText(`${res.words[this.currentRound].textExampleTranslate}`);
+    this.sentence.setAudio(`${res.words[this.currentRound].audioExample}`);
     this.puzzle.createPuzzles(`${BASE_IMG_LINK + res.levelData.cutSrc}`, `${res.words[this.currentRound].textExample}`);
     this.tasks.addTaskRow(res.words);
+    console.log(res);
     return res;
   }
 

@@ -1,7 +1,6 @@
 import Header from '../components/Header/header';
 import BaseElement from '../ui/base-element/base-element';
 import { main } from '../ui/base-tags/base-tags';
-import nonNullable from '../helpers/check-functions/non-nulable';
 
 export default class TemplatePage extends BaseElement<HTMLDivElement> {
   private header: Header;
@@ -21,10 +20,7 @@ export default class TemplatePage extends BaseElement<HTMLDivElement> {
   }
 
   public appendContent(content: BaseElement): void {
-    const body = document.querySelector('body');
-    if (nonNullable(body)) {
-      body.appendChild(content.htmlTag);
-    }
+    this.append(content);
   }
 
   private render(): void {
