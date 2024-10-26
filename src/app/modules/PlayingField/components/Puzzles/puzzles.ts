@@ -1,3 +1,4 @@
+import { randomSortArr } from '../../../../helpers/random-sort/random-sort';
 import BaseElement from '../../../../ui/base-element/base-element';
 import OnePuzzle from './OnePuzzle/onePuzzle';
 import './puzzles.css';
@@ -16,19 +17,21 @@ export default class Puzzle extends BaseElement {
     this.circleY = -15;
   }
 
-  public createPuzzles(url: string, sentence: string): void {
+  public createPuzzles(url: string, sentence: string, task: number): void {
     this.removeOldPuzzles();
     const wordsArr = sentence.split(' ');
     const lettersLength = wordsArr.join('').length;
+    const wordBasePuzzles: BaseElement[] = [];
 
-    wordsArr.forEach((word, idx) => {
-      const wordWidth = this.getWordLength(lettersLength, word.length, wordsArr.length);
-      const wordBasePuzzle = new OnePuzzle(word, wordWidth, url, this.x, this.y);
-
-      this.addPuzzleDetails(wordBasePuzzle, idx, wordsArr.length - 1, wordWidth);
-
-      this.append(wordBasePuzzle);
+    wordsArr.forEach((item, idx) => {
+      const wordWidth = this.getWordLength(lettersLength, item.length, wordsArr.length);
+      const currentPuzzle = new OnePuzzle(item, wordWidth, url, this.x, this.y, task, idx);
+      this.addPuzzleDetails(currentPuzzle, idx, wordsArr.length - 1, wordWidth);
+      wordBasePuzzles.push(currentPuzzle);
     });
+
+    const randomPuzzlesArr = randomSortArr(wordBasePuzzles);
+    this.addChildren(randomPuzzlesArr);
   }
 
   private getWordLength(sentenceLength: number, wordLength: number, totalWords: number): number {
@@ -52,13 +55,13 @@ export default class Puzzle extends BaseElement {
   }
 
   private changeCoordinates(width: number): void {
-    const widthMove = (width * 900) / 100 - 10;
+    const widthMove = (width * 900) / 100;
     this.x -= widthMove;
   }
 
   private createCircleCoordinates(width: number): number[] {
-    let moveX = (width * 900) / 100 - 10;
-    moveX = this.x - moveX + 10;
+    let moveX = (width * 900) / 100;
+    moveX = this.x - moveX;
     return [moveX, this.circleY];
   }
 

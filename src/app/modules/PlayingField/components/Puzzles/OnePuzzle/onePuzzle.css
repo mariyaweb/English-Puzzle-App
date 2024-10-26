@@ -1,10 +1,12 @@
 .puzzle__container {
   position: relative;
-  padding-right: 10px;
   z-index: 10;
 }
+.puzzle__container.dragged {
+  user-select: none;
+}
 
-.puzzle__item {
+.puzzle__body {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -18,7 +20,7 @@
   user-select: none;
 }
 
-.puzzle__item.aperture {
+.puzzle__body.aperture {
   mask-image: radial-gradient(circle at left, rgba(0, 0, 0, 0) 10px, rgba(0, 0, 0, 1) 0px);
 }
 
@@ -27,7 +29,7 @@
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  right: 10px;
+  right: 0px;
   top: 50%;
   transform: translate(50%, -50%);
   background-repeat: no-repeat;
@@ -43,7 +45,7 @@
   right: 0px;
 }
 
-.puzzle--hide .puzzle__item,
+.puzzle--hide .puzzle__body,
 .puzzle--hide .puzzle__circle {
   background: var(--light-bg-color) !important;
 }

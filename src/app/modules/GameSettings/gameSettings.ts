@@ -24,15 +24,13 @@ export default class GameSettings extends BaseElement {
   private addHandlers(): void {
     gameListBtn.setCallback('click', () => this.gameList.openModal());
     this.settings.setCallback('click', (e: Event) => {
-      this.toggleClues(e);
-      console.log(e.target);
+      this.changeSettings(e);
     });
   }
 
-  private toggleClues = (e: Event): void => {
+  private changeSettings = (e: Event): void => {
     const btn = e.target as HTMLElement;
     const btnData = btn.dataset.setting;
-    console.log(btnData);
     btn.classList.toggle(`settings__${btnData}--hide`);
     if (btnData === 'clue') {
       this.field.sentence.toggleTextVisibility();
@@ -41,8 +39,5 @@ export default class GameSettings extends BaseElement {
     } else {
       this.field.puzzle.toggleStyle('puzzle--hide');
     }
-
-    // добавить элементу класс hide
-    //
   };
 }
