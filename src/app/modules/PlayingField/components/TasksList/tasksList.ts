@@ -2,7 +2,6 @@ import { IWord } from '../../../../api/getGameInfo-types';
 import BaseElement from '../../../../ui/base-element/base-element';
 import CheckBtns from '../CheckBtns/checkBtns';
 import TaskItem from './TaskItem/taskItem';
-import { IColumn } from './TaskItem/taskItem-types';
 import './tasksList.css';
 
 export default class TasksList extends BaseElement {
@@ -33,7 +32,7 @@ export default class TasksList extends BaseElement {
 
   private createEmptyRows(): void {
     for (let row = 0; row < 10; row += 1) {
-      const item = new TaskItem(this.checkBtns)
+      const item = new TaskItem(this.checkBtns);
       this.currentTaskRows.push(item);
       this.append(item);
     }

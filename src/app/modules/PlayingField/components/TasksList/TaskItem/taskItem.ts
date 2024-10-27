@@ -7,6 +7,7 @@ import './taskItem.css';
 
 export default class TaskItem extends BaseElement {
   public columns: IColumn[] = [];
+
   private checkBtns: CheckBtns;
 
   constructor(checkBtn: CheckBtns) {
@@ -75,17 +76,22 @@ export default class TaskItem extends BaseElement {
     this.checkFillRow();
   }
 
-  private checkFillRow() {
+  private checkFillRow(): void {
     if (this.isRowFill()) {
       this.checkBtns.activeCheckBtn();
     }
   }
 
-  private isRowFill() {
-    return this.columns.every(column => column.puzzle);
+  private isRowFill(): boolean {
+    return this.columns.every((column) => column.puzzle);
   }
 
-  private movingToFillColumn(toColumnIndex: number, toColumnElement: IColumn, puzzle: Element, columnFrom: number | null): void {
+  private movingToFillColumn(
+    toColumnIndex: number,
+    toColumnElement: IColumn,
+    puzzle: Element,
+    columnFrom: number | null,
+  ): void {
     const emptyIdx = this.getNearestEmptyCol(toColumnIndex);
 
     if (!columnFrom) {
@@ -104,12 +110,14 @@ export default class TaskItem extends BaseElement {
       this.cleanPreviousColumn(columnFrom);
     }
   }
+
   private cleanPreviousColumn(columnIdx: number): void {
     const prevColumn = this.columns[columnIdx];
     prevColumn.column.destroyChildren();
     prevColumn.column.removeStyle('row__item--fill');
     prevColumn.puzzle = null;
   }
+
   public addToCol(columnIdx: number, puzzle: Element): void {
     const columnInfo = this.columns[columnIdx];
     const columnEl = columnInfo.column;
@@ -138,7 +146,7 @@ export default class TaskItem extends BaseElement {
   }
 
   public getFirstEmptyColumn(): number {
-    const indexEmptyColumn = this.columns.findIndex(columnInfo => !columnInfo.puzzle)
+    const indexEmptyColumn = this.columns.findIndex((columnInfo) => !columnInfo.puzzle);
     return indexEmptyColumn;
   }
 
@@ -170,7 +178,6 @@ export default class TaskItem extends BaseElement {
     prevColumn.puzzle = insertPuzzle;
     columnTo.puzzle = prevPuzzle;
   }
-
 
   public getColumns(): IColumn[] {
     return this.columns;

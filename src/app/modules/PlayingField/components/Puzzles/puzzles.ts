@@ -96,14 +96,13 @@ export default class Puzzle extends BaseElement {
     }
   }
 
-
   private moveToRow(puzzle: Element, row: TaskItem): void {
     const indexFirstEmptyCol = row.getFirstEmptyColumn();
     row.addToCol(indexFirstEmptyCol, puzzle);
   }
 
-  private moveToPuzzleField( puzzle: Element, puzzleData: string, row: TaskItem, indexPuzzleContainer: number): void {
-    for (let i = 0; i < this.randomWords.length; i++) {
+  private moveToPuzzleField(puzzle: Element, puzzleData: string, row: TaskItem, indexPuzzleContainer: number): void {
+    for (let i = 0; i < this.randomWords.length; i += 1) {
       const puzzleWord = this.randomWords[i];
       const puzzleContainer = puzzleWord.htmlTag;
       const initialData = puzzleWord.children[0].getAttribute('data-puzzle');
