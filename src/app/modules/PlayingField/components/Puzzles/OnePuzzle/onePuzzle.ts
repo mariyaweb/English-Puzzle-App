@@ -3,7 +3,7 @@ import { div } from '../../../../../ui/base-tags/base-tags';
 import './onePuzzle.css';
 
 export default class OnePuzzle extends BaseElement {
-  private puzzleItem: BaseElement;
+  public puzzleItem: BaseElement;
 
   private puzzleBody: BaseElement;
 

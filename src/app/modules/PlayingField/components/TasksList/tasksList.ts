@@ -1,5 +1,6 @@
 import { IWord } from '../../../../api/getGameInfo-types';
 import BaseElement from '../../../../ui/base-element/base-element';
+import CheckBtns from '../CheckBtns/checkBtns';
 import TaskItem from './TaskItem/taskItem';
 import './tasksList.css';
 
@@ -8,10 +9,16 @@ export default class TasksList extends BaseElement {
 
   private currentTask: number;
 
-  constructor() {
+  private checkBtns: CheckBtns;
+
+  public currentTaskRows: TaskItem[];
+
+  constructor(checkBtns: CheckBtns) {
     super({ styles: ['field__tasks', 'tasks'] });
     this.tasksList = [];
     this.currentTask = 0;
+    this.checkBtns = checkBtns;
+    this.currentTaskRows = [];
     this.createEmptyRows();
   }
 
@@ -21,22 +28,13 @@ export default class TasksList extends BaseElement {
     const currentRow = this.children[this.currentTask] as TaskItem;
     currentRow.addStyle('row--active');
     currentRow.addRowItems(countWordsInSentence);
-    // console.log(this.);
-    //  console.log(this.children[0].);
-
-    // создать игровой ряд
-    // добавить активный
-
-    // this.destroyChildren();
-    // allSentences.forEach((info) => {
-    //   const countWordsInSentence = info.textExample.split(' ').length;
-    //   this.append(new TaskItem(countWordsInSentence));
-    // });
   }
 
   private createEmptyRows(): void {
     for (let row = 0; row < 10; row += 1) {
-      this.append(new TaskItem());
+      const item = new TaskItem(this.checkBtns);
+      this.currentTaskRows.push(item);
+      this.append(item);
     }
   }
 
@@ -48,5 +46,9 @@ export default class TasksList extends BaseElement {
     this.children.forEach((child) => {
       child.destroyChildren();
     });
+  }
+
+  public getCurrentTaskRow(): TaskItem {
+    return this.currentTaskRows[this.currentTask];
   }
 }

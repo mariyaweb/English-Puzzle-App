@@ -18,7 +18,7 @@ export default class PlayingField extends BaseElement {
 
   public puzzle: Puzzle;
 
-  private checkBtns: BaseElement;
+  private checkBtns: CheckBtns;
 
   private currentLevel: number;
 
@@ -37,9 +37,9 @@ export default class PlayingField extends BaseElement {
     this.currentTask = 0;
     this.title = new FieldHeader();
     this.sentence = new HintSentence();
-    this.tasks = new TasksList();
-    this.puzzle = new Puzzle();
     this.checkBtns = new CheckBtns();
+    this.tasks = new TasksList(this.checkBtns);
+    this.puzzle = new Puzzle(this.tasks);
     this.addChildren([this.title, this.sentence, this.tasks, this.puzzle, this.checkBtns]);
     this.createRound();
     this.taskList = [];
