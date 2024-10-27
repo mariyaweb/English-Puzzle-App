@@ -1,15 +1,18 @@
 import BaseElement from '../../../../../ui/base-element/base-element';
 import { div } from '../../../../../ui/base-tags/base-tags';
+import CheckBtns from '../../CheckBtns/checkBtns';
 import { IColumn } from './taskItem-types';
 
 import './taskItem.css';
 
 export default class TaskItem extends BaseElement {
   public columns: IColumn[] = [];
+  private checkBtns: CheckBtns;
 
-  constructor() {
+  constructor(checkBtn: CheckBtns) {
     super({ styles: ['tasks__item', 'row'] });
     this.columns = [];
+    this.checkBtns = checkBtn;
   }
 
   public addRowItems(items: number): void {
@@ -54,7 +57,7 @@ export default class TaskItem extends BaseElement {
   private drop(e: DragEvent, item: BaseElement, columnNumber: number): void {
     e.preventDefault();
     const insertColumn = this.columns[columnNumber];
-    const colWithPuzzle = !insertColumn.puzzle;
+    const colWithoutPuzzle = !insertColumn.puzzle;
 
     if (e.dataTransfer) {
       /* Получаем инфу о перемещаемом элементе */
@@ -63,36 +66,51 @@ export default class TaskItem extends BaseElement {
       const prevParent = data.parentData;
       const puzzleEl = document.querySelector(`[data-puzzle="${puzzleId}"]`);
 
-      if (colWithPuzzle && puzzleEl) {
-        // место для пазла свободно
-        if (!prevParent) {
-          // перемещение снизу
-          this.addToCol(columnNumber, puzzleEl);
-        } else {
-          // перемещение внутри row
-          this.addToCol(columnNumber, puzzleEl);
-          const prevColumn = this.columns[prevParent];
-          prevColumn.column.destroyChildren();
-          prevColumn.column.removeStyle('row__item--fill');
-          prevColumn.puzzle = null;
-        }
-      } else {
-        // пазл занят
-        const emptyIdx = this.getNearestEmptyCol(columnNumber);
-
-        if (!prevParent && puzzleEl) {
-          // перемещение снизу
-          const offset = emptyIdx - columnNumber;
-          this.shiftPuzzles(columnNumber, offset, puzzleEl);
-        } else {
-          // перемещение внутри row
-          this.swapPuzzles(prevParent, insertColumn);
-        }
+      if (colWithoutPuzzle && puzzleEl) {
+        this.movingToEmptyColumn(columnNumber, puzzleEl, prevParent);
+      } else if (puzzleEl) {
+        this.movingToFillColumn(columnNumber, insertColumn, puzzleEl, prevParent);
       }
+    }
+    this.checkFillRow();
+  }
+
+  private checkFillRow() {
+    if (this.isRowFill()) {
+      this.checkBtns.activeCheckBtn();
     }
   }
 
-  private addToCol(columnIdx: number, puzzle: Element): void {
+  private isRowFill() {
+    return this.columns.every(column => column.puzzle);
+  }
+
+  private movingToFillColumn(toColumnIndex: number, toColumnElement: IColumn, puzzle: Element, columnFrom: number | null): void {
+    const emptyIdx = this.getNearestEmptyCol(toColumnIndex);
+
+    if (!columnFrom) {
+      const offset = emptyIdx - toColumnIndex;
+      this.shiftPuzzles(toColumnIndex, offset, puzzle);
+    } else {
+      this.swapPuzzles(columnFrom, toColumnElement);
+    }
+  }
+
+  private movingToEmptyColumn(toColumnIndex: number, puzzle: Element, columnFrom: number | null): void {
+    if (!columnFrom) {
+      this.addToCol(toColumnIndex, puzzle);
+    } else {
+      this.addToCol(toColumnIndex, puzzle);
+      this.cleanPreviousColumn(columnFrom);
+    }
+  }
+  private cleanPreviousColumn(columnIdx: number): void {
+    const prevColumn = this.columns[columnIdx];
+    prevColumn.column.destroyChildren();
+    prevColumn.column.removeStyle('row__item--fill');
+    prevColumn.puzzle = null;
+  }
+  public addToCol(columnIdx: number, puzzle: Element): void {
     const columnInfo = this.columns[columnIdx];
     const columnEl = columnInfo.column;
     columnInfo.puzzle = puzzle;
@@ -117,6 +135,11 @@ export default class TaskItem extends BaseElement {
     }
 
     return -1;
+  }
+
+  public getFirstEmptyColumn(): number {
+    const indexEmptyColumn = this.columns.findIndex(columnInfo => !columnInfo.puzzle)
+    return indexEmptyColumn;
   }
 
   private shiftPuzzles(insertIdx: number, offset: number, puzzle: Element): void {
@@ -146,5 +169,10 @@ export default class TaskItem extends BaseElement {
     prevColumn.column.htmlTag.replaceChildren(insertPuzzle as Node);
     prevColumn.puzzle = insertPuzzle;
     columnTo.puzzle = prevPuzzle;
+  }
+
+
+  public getColumns(): IColumn[] {
+    return this.columns;
   }
 }

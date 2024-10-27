@@ -1,5 +1,7 @@
 import { randomSortArr } from '../../../../helpers/random-sort/random-sort';
 import BaseElement from '../../../../ui/base-element/base-element';
+import TasksList from '../TasksList/tasksList';
+import TaskItem from '../TasksList/TaskItem/taskItem';
 import OnePuzzle from './OnePuzzle/onePuzzle';
 import './puzzles.css';
 
@@ -10,11 +12,17 @@ export default class Puzzle extends BaseElement {
 
   private circleY: number;
 
-  constructor() {
+  private randomWords: BaseElement[];
+
+  private tasks: TasksList;
+
+  constructor(tasks: TasksList) {
     super({ styles: ['field__puzzle', 'puzzle'] });
     this.x = 0;
     this.y = 0;
     this.circleY = -15;
+    this.randomWords = [];
+    this.tasks = tasks;
   }
 
   public createPuzzles(url: string, sentence: string, task: number): void {
@@ -26,12 +34,13 @@ export default class Puzzle extends BaseElement {
     wordsArr.forEach((item, idx) => {
       const wordWidth = this.getWordLength(lettersLength, item.length, wordsArr.length);
       const currentPuzzle = new OnePuzzle(item, wordWidth, url, this.x, this.y, task, idx);
+      currentPuzzle.puzzleItem.setCallback('click', (e) => this.movePuzzle(e));
       this.addPuzzleDetails(currentPuzzle, idx, wordsArr.length - 1, wordWidth);
       wordBasePuzzles.push(currentPuzzle);
     });
 
-    const randomPuzzlesArr = randomSortArr(wordBasePuzzles);
-    this.addChildren(randomPuzzlesArr);
+    this.randomWords = randomSortArr(wordBasePuzzles);
+    this.addChildren(this.randomWords);
   }
 
   private getWordLength(sentenceLength: number, wordLength: number, totalWords: number): number {
@@ -70,5 +79,41 @@ export default class Puzzle extends BaseElement {
     this.x = 0;
     this.y = 0;
     this.circleY = -15;
+  }
+
+  private movePuzzle(e: Event): void {
+    const puzzle = e.currentTarget as Element;
+    const puzzleData = puzzle.getAttribute('data-puzzle');
+    const puzzleContainer = puzzle.parentElement;
+    const indexPuzzleContainer = Number(puzzleContainer?.getAttribute('data-col'));
+    const isSourceBlock = puzzleContainer?.classList.contains('puzzle__container');
+    const currentRow = this.tasks.getCurrentTaskRow();
+    if (isSourceBlock && puzzle) {
+      this.moveToRow(puzzle, currentRow);
+    } else if (puzzle && puzzleData && indexPuzzleContainer >= 0) {
+      this.moveToPuzzleField(puzzle, puzzleData, currentRow, indexPuzzleContainer);
+      puzzleContainer?.classList.remove('row__item--fill');
+    }
+  }
+
+
+  private moveToRow(puzzle: Element, row: TaskItem): void {
+    const indexFirstEmptyCol = row.getFirstEmptyColumn();
+    row.addToCol(indexFirstEmptyCol, puzzle);
+  }
+
+  private moveToPuzzleField( puzzle: Element, puzzleData: string, row: TaskItem, indexPuzzleContainer: number): void {
+    for (let i = 0; i < this.randomWords.length; i++) {
+      const puzzleWord = this.randomWords[i];
+      const puzzleContainer = puzzleWord.htmlTag;
+      const initialData = puzzleWord.children[0].getAttribute('data-puzzle');
+
+      const isInitialPuzzlePosition = initialData === puzzleData;
+      if (!puzzleContainer.hasChildNodes() && isInitialPuzzlePosition) {
+        puzzleContainer.append(puzzle);
+        row.columns[indexPuzzleContainer].puzzle = null;
+        break;
+      }
+    }
   }
 }

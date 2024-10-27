@@ -15,7 +15,7 @@ export default class CheckBtns extends BaseElement {
     this.addChildren([this.complete, this.check]);
   }
 
-  private activeCheckBtn(): void {
+  public activeCheckBtn(): void {
     this.check.removeAttribute('disabled');
     this.check.removeStyle('disabled');
   }
