@@ -3,9 +3,9 @@ import { button } from '../../../../ui/base-tags/base-tags';
 import './checkBtns.css';
 
 export default class CheckBtns extends BaseElement {
-  private complete: BaseElement;
+  public complete: BaseElement;
 
-  private check: BaseElement;
+  public check: BaseElement;
 
   constructor() {
     super({ styles: ['field__checkBtns', 'checkBtns'] });

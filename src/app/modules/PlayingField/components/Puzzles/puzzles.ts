@@ -12,7 +12,9 @@ export default class Puzzle extends BaseElement {
 
   private circleY: number;
 
-  private randomWords: BaseElement[];
+  public initialPuzzles: OnePuzzle[];
+
+  public randomPuzzles: BaseElement[];
 
   private tasks: TasksList;
 
@@ -21,7 +23,8 @@ export default class Puzzle extends BaseElement {
     this.x = 0;
     this.y = 0;
     this.circleY = -15;
-    this.randomWords = [];
+    this.initialPuzzles = [];
+    this.randomPuzzles = [];
     this.tasks = tasks;
   }
 
@@ -29,18 +32,17 @@ export default class Puzzle extends BaseElement {
     this.removeOldPuzzles();
     const wordsArr = sentence.split(' ');
     const lettersLength = wordsArr.join('').length;
-    const wordBasePuzzles: BaseElement[] = [];
 
     wordsArr.forEach((item, idx) => {
       const wordWidth = this.getWordLength(lettersLength, item.length, wordsArr.length);
       const currentPuzzle = new OnePuzzle(item, wordWidth, url, this.x, this.y, task, idx);
-      currentPuzzle.puzzleItem.setCallback('click', (e) => this.movePuzzle(e));
+      currentPuzzle.puzzleItem.setCallback('click', this.movePuzzle);
       this.addPuzzleDetails(currentPuzzle, idx, wordsArr.length - 1, wordWidth);
-      wordBasePuzzles.push(currentPuzzle);
+      this.initialPuzzles.push(currentPuzzle);
     });
 
-    this.randomWords = randomSortArr(wordBasePuzzles);
-    this.addChildren(this.randomWords);
+    this.randomPuzzles = randomSortArr(this.initialPuzzles);
+    this.addChildren(this.randomPuzzles);
   }
 
   private getWordLength(sentenceLength: number, wordLength: number, totalWords: number): number {
@@ -81,7 +83,8 @@ export default class Puzzle extends BaseElement {
     this.circleY = -15;
   }
 
-  private movePuzzle(e: Event): void {
+  public movePuzzle = (e: Event): void => {
+    console.log('Срабатывает Move');
     const puzzle = e.currentTarget as Element;
     const puzzleData = puzzle.getAttribute('data-puzzle');
     const puzzleContainer = puzzle.parentElement;
@@ -94,16 +97,16 @@ export default class Puzzle extends BaseElement {
       this.moveToPuzzleField(puzzle, puzzleData, currentRow, indexPuzzleContainer);
       puzzleContainer?.classList.remove('row__item--fill');
     }
-  }
+  };
 
   private moveToRow(puzzle: Element, row: TaskItem): void {
     const indexFirstEmptyCol = row.getFirstEmptyColumn();
     row.addToCol(indexFirstEmptyCol, puzzle);
   }
 
-  private moveToPuzzleField(puzzle: Element, puzzleData: string, row: TaskItem, indexPuzzleContainer: number): void {
-    for (let i = 0; i < this.randomWords.length; i += 1) {
-      const puzzleWord = this.randomWords[i];
+  public moveToPuzzleField(puzzle: Element, puzzleData: string, row: TaskItem, indexPuzzleContainer: number): void {
+    for (let i = 0; i < this.randomPuzzles.length; i += 1) {
+      const puzzleWord = this.randomPuzzles[i];
       const puzzleContainer = puzzleWord.htmlTag;
       const initialData = puzzleWord.children[0].getAttribute('data-puzzle');
 

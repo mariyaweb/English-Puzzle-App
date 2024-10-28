@@ -1,6 +1,8 @@
 import BaseElement from '../../../../../ui/base-element/base-element';
 import { div } from '../../../../../ui/base-tags/base-tags';
 import CheckBtns from '../../CheckBtns/checkBtns';
+import OnePuzzle from '../../Puzzles/OnePuzzle/onePuzzle';
+import Puzzle from '../../Puzzles/puzzles';
 import { IColumn } from './taskItem-types';
 
 import './taskItem.css';
@@ -79,7 +81,55 @@ export default class TaskItem extends BaseElement {
   private checkFillRow(): void {
     if (this.isRowFill()) {
       this.checkBtns.activeCheckBtn();
+      const isCorrectSentence = this.isCorrectSentence();
+      if (isCorrectSentence) {
+        // если правильно -> меняем раунд
+      }
+
+      // иначе -> подсвечиваем неправильно раставленый пазлы
     }
+  }
+
+  public autoCompleteRow(puzzleBlock: Puzzle): void {
+    const initialPuzzle = puzzleBlock.initialPuzzles;
+    const { movePuzzle } = puzzleBlock;
+    this.moveAllPuzzleToPuzzleBlock(puzzleBlock);
+    this.moveAllPuzzleToRow(initialPuzzle, movePuzzle);
+  }
+
+  private moveAllPuzzleToPuzzleBlock(puzzleBlock: Puzzle) {
+    this.columns.forEach((column, index) => {
+      const columnTag = column.column.htmlTag;
+      const { puzzle } = column;
+      const puzzleData = puzzle?.getAttribute('data-puzzle');
+      if (columnTag.classList.contains('row__item--fill') && puzzle && puzzleData) {
+        puzzleBlock.moveToPuzzleField(puzzle as Element, puzzleData, this, index);
+      }
+    });
+  }
+
+  private moveAllPuzzleToRow(initialPuzzle: OnePuzzle[], movePuzzle: (e: Event) => void) {
+    this.columns.forEach((_, index) => {
+      const correctPuzzle = initialPuzzle[index];
+      const correctPuzzleEl = correctPuzzle.htmlTag;
+      const correctPuzzleItem = correctPuzzle.puzzleItem;
+      correctPuzzleItem.removeAttribute('draggable');
+      correctPuzzleItem.removeCallback('click', movePuzzle);
+      this.addToCol(index, correctPuzzleEl);
+    });
+  }
+
+  private isCorrectSentence(): boolean {
+    const res = this.columns.every((column, index) => {
+      const { puzzle } = column;
+      return puzzle ? this.getPuzzlePosition(puzzle) === index : false;
+    });
+    return res;
+  }
+
+  private getPuzzlePosition(puzzle: Element | BaseElement): number {
+    const wordPosition = puzzle.getAttribute('data-puzzle');
+    return wordPosition ? +wordPosition.slice(-1) : -1;
   }
 
   private isRowFill(): boolean {
@@ -177,9 +227,5 @@ export default class TaskItem extends BaseElement {
     prevColumn.column.htmlTag.replaceChildren(insertPuzzle as Node);
     prevColumn.puzzle = insertPuzzle;
     columnTo.puzzle = prevPuzzle;
-  }
-
-  public getColumns(): IColumn[] {
-    return this.columns;
   }
 }
