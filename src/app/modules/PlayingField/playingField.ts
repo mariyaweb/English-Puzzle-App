@@ -44,7 +44,21 @@ export default class PlayingField extends BaseElement {
     this.createRound();
     this.taskList = [];
     this.mainImgLink = '';
+    this.addHandlers();
   }
+
+  private addHandlers(): void {
+    this.checkBtns.check.setCallback('click', this.checkSentence);
+    this.checkBtns.complete.setCallback('click', this.autoCompletePuzzle);
+  }
+
+  private checkSentence = (): void => { };
+
+  private autoCompletePuzzle = (): void => {
+    const currentTask = this.tasks.currentTaskRows[this.currentTask];
+    currentTask.autoCompleteRow(this.puzzle);
+    this.checkBtns.activeCheckBtn();
+  };
 
   private async createRound(): Promise<IRound> {
     const res = await getRoundsInfo(this.currentLevel, this.currentRound);
@@ -69,9 +83,6 @@ export default class PlayingField extends BaseElement {
       `${this.taskList[this.currentTask].textExample}`,
       this.currentTask,
     );
-    // set sentence  levelData.name
-    // active row
-    // set new puzzles
   }
 
   public update = (level: number, round: number): void => {
@@ -79,4 +90,15 @@ export default class PlayingField extends BaseElement {
     this.currentRound = round;
     this.createRound();
   };
+
+  public goNextRound(): void {
+    const next = this.currentRound + 1;
+    if (next <= 9) {
+      this.currentRound = next;
+    }
+  }
+
+  public goNextRow(): void {
+    this.tasks.currentTask += 1;
+  }
 }

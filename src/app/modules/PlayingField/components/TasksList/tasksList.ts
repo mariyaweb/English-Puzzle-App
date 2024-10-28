@@ -7,7 +7,7 @@ import './tasksList.css';
 export default class TasksList extends BaseElement {
   private tasksList: IWord[];
 
-  private currentTask: number;
+  public currentTask: number;
 
   private checkBtns: CheckBtns;
 
@@ -26,6 +26,9 @@ export default class TasksList extends BaseElement {
     this.currentTask = currentTask;
     const countWordsInSentence = this.tasksList[this.currentTask].textExample.split(' ').length;
     const currentRow = this.children[this.currentTask] as TaskItem;
+    if (this.currentTask > 0) {
+      this.children[this.currentTask - 1].removeStyle('row--active');
+    }
     currentRow.addStyle('row--active');
     currentRow.addRowItems(countWordsInSentence);
   }

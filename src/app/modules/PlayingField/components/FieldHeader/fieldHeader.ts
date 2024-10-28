@@ -19,4 +19,8 @@ export default class FieldHeader extends BaseElement {
     this.level.setTextContent(`Level ${levelNumber}: ${levelName}`);
     this.round.setTextContent(`Round: ${round}`);
   }
+
+  public setRoundText(round: string): void {
+    this.round.setTextContent(`Round: ${round}`);
+  }
 }
