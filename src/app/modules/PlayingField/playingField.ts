@@ -14,7 +14,7 @@ export default class PlayingField extends BaseElement {
 
   public sentence: HintSentence;
 
-  private tasks: TasksList;
+  public tasks: TasksList;
 
   public puzzle: Puzzle;
 
@@ -50,14 +50,17 @@ export default class PlayingField extends BaseElement {
   private addHandlers(): void {
     this.checkBtns.check.setCallback('click', this.checkSentence);
     this.checkBtns.complete.setCallback('click', this.autoCompletePuzzle);
+    this.checkBtns.continue.setCallback('click', this.continue);
   }
 
-  private checkSentence = (): void => { };
+  private checkSentence = (): void => {
+    this.tasks.currentTaskRows[this.currentTask].checkFillRow();
+  };
 
   private autoCompletePuzzle = (): void => {
     const currentTask = this.tasks.currentTaskRows[this.currentTask];
     currentTask.autoCompleteRow(this.puzzle);
-    this.checkBtns.activeCheckBtn();
+    this.checkBtns.hideCheckBtn();
   };
 
   private async createRound(): Promise<IRound> {
@@ -86,6 +89,7 @@ export default class PlayingField extends BaseElement {
   }
 
   public update = (level: number, round: number): void => {
+    console.log('update');
     this.currentLevel = level;
     this.currentRound = round;
     this.createRound();
@@ -100,5 +104,22 @@ export default class PlayingField extends BaseElement {
 
   public goNextRow(): void {
     this.tasks.currentTask += 1;
+    this.currentTask += 1;
+    this.setTask();
   }
+
+  private continue = (): void => {
+    const currentRow = this.tasks.currentTaskRows[this.currentTask];
+    currentRow.saveRow();
+    this.checkBtns.showCheckBtn();
+    if (!currentRow.htmlTag.classList.contains('row--incorrect')) {
+      currentRow.addStyle('row--correct');
+    }
+
+    if (this.currentTask === 9) {
+      this.goNextRound();
+    } else {
+      this.goNextRow();
+    }
+  };
 }

@@ -38,6 +38,7 @@ export default class GameSettings extends BaseElement {
       this.field.sentence.toggleVolume();
     } else {
       this.field.puzzle.toggleStyle('puzzle--hide');
+      this.field.tasks.toggleStyle('puzzle--hide');
     }
   };
 }

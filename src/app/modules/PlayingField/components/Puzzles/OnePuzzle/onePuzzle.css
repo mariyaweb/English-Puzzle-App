@@ -24,6 +24,18 @@
   mask-image: radial-gradient(circle at left, rgba(0, 0, 0, 0) 10px, rgba(0, 0, 0, 1) 0px);
 }
 
+.row__item.correct .puzzle__body {
+  -webkit-box-shadow: 0px -14px 0px -12px rgba(0, 197, 6, 1) inset;
+  -moz-box-shadow: 0px -14px 0px -12px rgba(0, 197, 6, 1) inset;
+  box-shadow: 0px -14px 0px -12px rgba(0, 197, 6, 1) inset;
+}
+
+.row__item.incorrect .puzzle__body {
+  -webkit-box-shadow: 0px -14px 0px -12px rgba(0, 197, 6, 1) inset;
+  -moz-box-shadow: 0px -14px 0px -12px rgba(0, 197, 6, 1) inset;
+  box-shadow: 0px -14px 0px -12px rgb(197, 26, 0) inset;
+}
+
 .puzzle__circle {
   position: absolute;
   width: 20px;
@@ -48,4 +60,12 @@
 .puzzle--hide .puzzle__body,
 .puzzle--hide .puzzle__circle {
   background: var(--light-bg-color) !important;
+}
+
+.puzzle--hide .puzzle__body {
+  box-shadow: -1px -1px 10px 1px rgba(19, 95, 217, 1) inset;
+}
+
+.puzzle--hide .puzzle__circle {
+  box-shadow: -10px -10px 12px -12px rgba(19, 95, 217, 1) inset;
 }

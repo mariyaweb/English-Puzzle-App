@@ -44,7 +44,7 @@ export default class TaskItem extends BaseElement {
   }
 
   private dragEnter(e: DragEvent): void {
-    const el = e.target as HTMLElement;
+    const el = e.currentTarget as HTMLElement;
     el.classList.add('row__item--hover');
   }
 
@@ -53,12 +53,14 @@ export default class TaskItem extends BaseElement {
   }
 
   private dragLeave(e: DragEvent): void {
-    const el = e.target as HTMLElement;
+    const el = e.currentTarget as HTMLElement;
     el.classList.remove('row__item--hover');
   }
 
   private drop(e: DragEvent, item: BaseElement, columnNumber: number): void {
     e.preventDefault();
+    const el = e.currentTarget as HTMLElement;
+    el.classList.remove('row__item--hover');
     const insertColumn = this.columns[columnNumber];
     const colWithoutPuzzle = !insertColumn.puzzle;
 
@@ -78,16 +80,43 @@ export default class TaskItem extends BaseElement {
     this.checkFillRow();
   }
 
-  private checkFillRow(): void {
-    if (this.isRowFill()) {
+  public checkFillRow(): void {
+    this.removeAllCheckStyles();
+    const isFill = this.columns.every((column) => column.puzzle);
+    if (isFill) {
       this.checkBtns.activeCheckBtn();
-      const isCorrectSentence = this.isCorrectSentence();
-      if (isCorrectSentence) {
-        // если правильно -> меняем раунд
-      }
-
-      // иначе -> подсвечиваем неправильно раставленый пазлы
+      this.checkBtns.check.setCallback('click', this.checkSentence);
+    } else {
+      this.checkBtns.disabledCheckBtn();
     }
+  }
+
+  private checkSentence = (): void => {
+    const isCorrectSentence = this.isCorrectSentence();
+    if (isCorrectSentence) {
+      this.checkBtns.hideCheckBtn();
+      this.addStyle('row--correct');
+    } else {
+      this.showIncorrectWords();
+    }
+  };
+
+  private showIncorrectWords(): void {
+    this.removeAllCheckStyles();
+    this.columns.forEach((columnInfo, index) => {
+      const puzzleEl = columnInfo.puzzle;
+      if (puzzleEl && this.getPuzzlePosition(puzzleEl) === index) {
+        columnInfo.column.addStyle('correct');
+      } else {
+        columnInfo.column.addStyle('incorrect');
+      }
+    });
+  }
+
+  public removeAllCheckStyles(): void {
+    this.columns.forEach((columnInfo) => {
+      columnInfo.column.removeStyles(['correct', 'incorrect']);
+    });
   }
 
   public autoCompleteRow(puzzleBlock: Puzzle): void {
@@ -95,9 +124,10 @@ export default class TaskItem extends BaseElement {
     const { movePuzzle } = puzzleBlock;
     this.moveAllPuzzleToPuzzleBlock(puzzleBlock);
     this.moveAllPuzzleToRow(initialPuzzle, movePuzzle);
+    this.addStyle('row--incorrect');
   }
 
-  private moveAllPuzzleToPuzzleBlock(puzzleBlock: Puzzle) {
+  private moveAllPuzzleToPuzzleBlock(puzzleBlock: Puzzle): void {
     this.columns.forEach((column, index) => {
       const columnTag = column.column.htmlTag;
       const { puzzle } = column;
@@ -108,7 +138,7 @@ export default class TaskItem extends BaseElement {
     });
   }
 
-  private moveAllPuzzleToRow(initialPuzzle: OnePuzzle[], movePuzzle: (e: Event) => void) {
+  private moveAllPuzzleToRow(initialPuzzle: OnePuzzle[], movePuzzle: (e: Event) => void): void {
     this.columns.forEach((_, index) => {
       const correctPuzzle = initialPuzzle[index];
       const correctPuzzleEl = correctPuzzle.htmlTag;
@@ -130,10 +160,6 @@ export default class TaskItem extends BaseElement {
   private getPuzzlePosition(puzzle: Element | BaseElement): number {
     const wordPosition = puzzle.getAttribute('data-puzzle');
     return wordPosition ? +wordPosition.slice(-1) : -1;
-  }
-
-  private isRowFill(): boolean {
-    return this.columns.every((column) => column.puzzle);
   }
 
   private movingToFillColumn(
@@ -227,5 +253,10 @@ export default class TaskItem extends BaseElement {
     prevColumn.column.htmlTag.replaceChildren(insertPuzzle as Node);
     prevColumn.puzzle = insertPuzzle;
     columnTo.puzzle = prevPuzzle;
+  }
+
+  public saveRow(): void {
+    const innerContent = this.htmlTag.innerHTML;
+    this.setTextContent(innerContent);
   }
 }

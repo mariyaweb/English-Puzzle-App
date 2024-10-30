@@ -5,6 +5,10 @@ import TaskItem from '../TasksList/TaskItem/taskItem';
 import OnePuzzle from './OnePuzzle/onePuzzle';
 import './puzzles.css';
 
+const PUZZLE_HEIGHT = 48.9;
+const CIRCRLE_OFFSET_Y = -15;
+const CIRCRLE_RADIUS = 10;
+
 export default class Puzzle extends BaseElement {
   private x: number;
 
@@ -22,7 +26,7 @@ export default class Puzzle extends BaseElement {
     super({ styles: ['field__puzzle', 'puzzle'] });
     this.x = 0;
     this.y = 0;
-    this.circleY = -15;
+    this.circleY = 0;
     this.initialPuzzles = [];
     this.randomPuzzles = [];
     this.tasks = tasks;
@@ -72,19 +76,24 @@ export default class Puzzle extends BaseElement {
 
   private createCircleCoordinates(width: number): number[] {
     let moveX = (width * 900) / 100;
-    moveX = this.x - moveX;
+    moveX = this.x - moveX + CIRCRLE_RADIUS;
     return [moveX, this.circleY];
   }
 
   private removeOldPuzzles(): void {
     this.destroyChildren();
     this.x = 0;
-    this.y = 0;
-    this.circleY = -15;
+    if (this.tasks.currentTask > 0) {
+      this.y -= PUZZLE_HEIGHT;
+    } else {
+      this.y = 0;
+    }
+    this.circleY = CIRCRLE_OFFSET_Y + this.y;
+    this.initialPuzzles = [];
+    this.randomPuzzles = [];
   }
 
   public movePuzzle = (e: Event): void => {
-    console.log('Срабатывает Move');
     const puzzle = e.currentTarget as Element;
     const puzzleData = puzzle.getAttribute('data-puzzle');
     const puzzleContainer = puzzle.parentElement;
@@ -97,6 +106,7 @@ export default class Puzzle extends BaseElement {
       this.moveToPuzzleField(puzzle, puzzleData, currentRow, indexPuzzleContainer);
       puzzleContainer?.classList.remove('row__item--fill');
     }
+    currentRow.checkFillRow();
   };
 
   private moveToRow(puzzle: Element, row: TaskItem): void {
@@ -109,7 +119,6 @@ export default class Puzzle extends BaseElement {
       const puzzleWord = this.randomPuzzles[i];
       const puzzleContainer = puzzleWord.htmlTag;
       const initialData = puzzleWord.children[0].getAttribute('data-puzzle');
-
       const isInitialPuzzlePosition = initialData === puzzleData;
       if (!puzzleContainer.hasChildNodes() && isInitialPuzzlePosition) {
         puzzleContainer.append(puzzle);
