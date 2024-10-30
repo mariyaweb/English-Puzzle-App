@@ -24,14 +24,23 @@
   flex-grow: 1;
 }
 
+.row__item:first-child .puzzle__body {
+  border-radius: 5px 0 0 5px;
+}
+
+.row__item:last-child .puzzle__body {
+  border-radius: 0 5px 5px 0;
+}
+
 .row__item--fill {
   flex-grow: 0;
 }
 
 .row--active {
-  -webkit-box-shadow: 0px 5px 28px 1px rgba(82, 125, 240, 0.32);
-  -moz-box-shadow: 0px 5px 28px 1px rgba(82, 125, 240, 0.32);
-  box-shadow: 0px 5px 28px 1px rgba(82, 125, 240, 0.32);
+  -webkit-box-shadow: 1px 1px 0px 0px rgba(19, 95, 217, 1) inset;
+  -moz-box-shadow: 1px 1px 0px 0px rgba(19, 95, 217, 1) inset;
+  box-shadow: 0px 0px 1px 1px rgba(19, 95, 217, 1) inset;
+  transition: all 0.2s ease-in-out;
 }
 
 .row.hover {
@@ -40,4 +49,25 @@
 
 .row--active .row__item--hover {
   border: solid 1px var(--btn-active-color);
+}
+
+.row--correct .row__item:last-child,
+.row--incorrect .row__item:last-child {
+  position: relative;
+}
+
+.row--correct .row__item:last-child::after,
+.row--incorrect .row__item:last-child::after {
+  position: absolute;
+  content: '';
+  background: url(../../../../../../assets/icons/correct.svg) no-repeat;
+  width: 18px;
+  height: 18px;
+  right: -30px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.row--incorrect .row__item:last-child::after {
+  background: url(../../../../../../assets/icons/incorrect.svg) no-repeat;
 }

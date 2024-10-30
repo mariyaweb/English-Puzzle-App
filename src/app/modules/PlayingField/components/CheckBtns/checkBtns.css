@@ -12,12 +12,14 @@
   transition: all 0.2s linear;
 }
 
-.checkBtns__check {
+.checkBtns__check,
+.checkBtns__continue {
   color: var(--light-text-color);
   background-color: var(--btn-dark-bg-color);
 }
 
-.checkBtns__check:hover {
+.checkBtns__check:hover,
+.checkBtns__continue:hover {
   background-color: var(--btn-active-color);
 }
 
@@ -29,6 +31,11 @@
 .checkBtns__check.disabled:hover {
   color: var(--light-text-color);
   background-color: var(--btn-dark-bg-color);
+}
+
+.checkBtns__check.hide,
+.checkBtns__continue.hide {
+  display: none;
 }
 
 .checkBtns__complete {

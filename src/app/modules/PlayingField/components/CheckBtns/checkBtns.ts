@@ -7,12 +7,15 @@ export default class CheckBtns extends BaseElement {
 
   public check: BaseElement;
 
+  public continue: BaseElement;
+
   constructor() {
     super({ styles: ['field__checkBtns', 'checkBtns'] });
     this.complete = button({ styles: ['checkBtns__btn', 'checkBtns__complete'], text: 'Auto-Complete' });
     this.check = button({ styles: ['checkBtns__btn', 'checkBtns__check', 'disabled'], text: 'Check' });
+    this.continue = button({ styles: ['checkBtns__btn', 'checkBtns__continue', 'hide'], text: 'Continue' });
     this.disabledCheckBtn();
-    this.addChildren([this.complete, this.check]);
+    this.addChildren([this.complete, this.check, this.continue]);
   }
 
   public activeCheckBtn(): void {
@@ -20,8 +23,18 @@ export default class CheckBtns extends BaseElement {
     this.check.removeStyle('disabled');
   }
 
-  private disabledCheckBtn(): void {
+  public disabledCheckBtn(): void {
     this.check.setAttribute('disabled', 'true');
     this.check.addStyle('disabled');
+  }
+
+  public showCheckBtn(): void {
+    this.check.removeStyle('hide');
+    this.continue.addStyle('hide');
+  }
+
+  public hideCheckBtn(): void {
+    this.check.addStyle('hide');
+    this.continue.removeStyle('hide');
   }
 }
