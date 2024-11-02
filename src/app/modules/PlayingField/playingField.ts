@@ -92,6 +92,7 @@ export default class PlayingField extends BaseElement {
   }
 
   public update = (level: number, round: number): void => {
+    this.cleanPreviousRound();
     this.currentLevel = level;
     this.currentRound = round;
     this.createRound();
@@ -100,12 +101,16 @@ export default class PlayingField extends BaseElement {
   public goNextRound = (): void => {
     this.currentRound += 1;
     this.currentTask = 0;
-    this.tasks.removeStyle('fade-out');
-    this.tasks.removeTaskList();
-    this.tasks.removeAttribute('style');
     this.update(this.currentLevel, this.currentRound);
-    this.checkBtns.showCheckBtn();
   };
+
+  private cleanPreviousRound(): void {
+    this.tasks.removeTaskList();
+    this.tasks.removeStyle('fade-out');
+    this.tasks.removeAttribute('style');
+    this.checkBtns.showCheckBtn();
+    this.currentTask = 0;
+  }
 
   public goNextRow(): void {
     this.tasks.currentTask += 1;

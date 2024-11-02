@@ -35,8 +35,10 @@
   width: 18px;
   height: 18px;
   background: url('../../../../../assets/icons/mic.svg');
+  cursor: pointer;
 }
 
 .sentence__audio--hide {
   display: none;
+  cursor: none;
 }
