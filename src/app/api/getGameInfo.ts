@@ -10,7 +10,7 @@ export async function getLevelInfo(level: number): Promise<ILevel> {
   return res;
 }
 
-export async function getRoundsInfo(level: number, round: number): Promise<IRound> {
+export async function getRoundInfo(level: number, round: number): Promise<IRound> {
   const currLevel = await getLevelInfo(level);
   const { rounds } = currLevel;
   return rounds[round];
