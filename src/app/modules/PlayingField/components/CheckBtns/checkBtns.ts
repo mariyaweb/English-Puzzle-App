@@ -24,11 +24,13 @@ export default class CheckBtns extends BaseElement {
   public activeCheckBtn(): void {
     this.check.removeAttribute('disabled');
     this.check.removeStyle('disabled');
+    this.showCheckBtn();
   }
 
   public disabledCheckBtn(): void {
     this.check.setAttribute('disabled', 'true');
     this.check.addStyle('disabled');
+    this.showCheckBtn();
   }
 
   public showCheckBtn(): void {

@@ -97,6 +97,7 @@ export default class TaskItem extends BaseElement {
       this.checkBtns.showContinueBtn();
       this.addStyle('row--correct');
     } else {
+      this.checkBtns.activeCheckBtn();
       this.showIncorrectWords();
     }
   };

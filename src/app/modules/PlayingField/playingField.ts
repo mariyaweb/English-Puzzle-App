@@ -1,4 +1,4 @@
-import { getRoundsInfo } from '../../api/getGameInfo';
+import { getLevelInfo, getRoundInfo } from '../../api/getGameInfo';
 import { IRound, IWord } from '../../api/getGameInfo-types';
 import { BASE_IMG_LINK } from '../../const/const';
 import BaseElement from '../../ui/base-element/base-element';
@@ -9,6 +9,8 @@ import Puzzle from './components/Puzzles/puzzles';
 import TasksList from './components/TasksList/tasksList';
 import { ShortLevelData } from './playingField-types';
 import './playingField.css';
+
+const NUMBER_OF_LEVELS = 6;
 
 export default class PlayingField extends BaseElement {
   private title: FieldHeader;
@@ -31,11 +33,14 @@ export default class PlayingField extends BaseElement {
 
   public roundData: ShortLevelData;
 
+  private maxRound: number;
+
   constructor() {
     super({ styles: ['game__field', 'field'] });
     this.currentLevel = 2;
     this.currentRound = 0;
     this.currentTask = 0;
+    this.maxRound = 50;
     this.title = new FieldHeader();
     this.sentence = new HintSentence();
     this.checkBtns = new CheckBtns();
@@ -66,7 +71,8 @@ export default class PlayingField extends BaseElement {
   };
 
   private async createRound(): Promise<IRound> {
-    const res = await getRoundsInfo(this.currentLevel, this.currentRound);
+    const res = await getRoundInfo(this.currentLevel, this.currentRound);
+    this.maxRound = (await getLevelInfo(this.currentLevel)).rounds.length - 1;
     this.setGame(res);
     this.setTask();
     return res;
@@ -99,10 +105,24 @@ export default class PlayingField extends BaseElement {
   };
 
   public goNextRound = (): void => {
-    this.currentRound += 1;
+    const isLastLevel = this.currentLevel === NUMBER_OF_LEVELS;
+    const isLastRound = this.currentRound === this.maxRound;
+    if (isLastRound && isLastLevel) {
+      this.currentLevel = 1;
+      this.currentRound = 0;
+    } else if (isLastRound && !isLastLevel) {
+      this.currentLevel += 1;
+      this.currentRound = 0;
+    } else {
+      this.currentRound += 1;
+    }
     this.currentTask = 0;
     this.update(this.currentLevel, this.currentRound);
   };
+
+  // public goNextLevel(): void {
+
+  // }
 
   private cleanPreviousRound(): void {
     this.tasks.removeTaskList();
@@ -133,7 +153,7 @@ export default class PlayingField extends BaseElement {
       this.checkBtns.showNextRoundBtn();
       currentRow.removeStyle('row--active');
     } else {
-      this.checkBtns.showCheckBtn();
+      this.checkBtns.disabledCheckBtn();
       this.goNextRow();
     }
   };
