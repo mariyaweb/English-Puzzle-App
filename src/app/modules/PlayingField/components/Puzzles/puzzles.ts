@@ -4,6 +4,8 @@ import TasksList from '../TasksList/tasksList';
 import TaskItem from '../TasksList/TaskItem/taskItem';
 import OnePuzzle from './OnePuzzle/onePuzzle';
 import './puzzles.css';
+import { div, p } from '../../../../ui/base-tags/base-tags';
+import { ShortLevelData } from '../../playingField-types';
 
 const PUZZLE_HEIGHT = 48.9;
 const CIRCRLE_OFFSET_Y = -15;
@@ -126,5 +128,14 @@ export default class Puzzle extends BaseElement {
         break;
       }
     }
+  }
+
+  public showPaintingInfo(data: ShortLevelData): void {
+    const containerEl = div({ styles: ['puzzle__painting', 'painting'] });
+    const nameEl = p({ styles: ['painting__text', 'painting__name'], text: data.name });
+    const authorEl = p({ styles: ['painting__text', 'painting__author'], text: data.author });
+    const yearEl = p({ styles: ['painting__text', 'painting__year'], text: data.year });
+    containerEl.addChildren([nameEl, authorEl, yearEl]);
+    this.append(containerEl);
   }
 }

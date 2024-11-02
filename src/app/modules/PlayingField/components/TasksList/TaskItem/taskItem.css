@@ -19,6 +19,29 @@
   }
 }
 
+.tasks.fade-out .row {
+  animation: hideRows 2s ease-out;
+  animation-fill-mode: forwards;
+}
+
+@keyframes hideRows {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes showRows {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 .row__item {
   position: relative;
   flex-grow: 1;

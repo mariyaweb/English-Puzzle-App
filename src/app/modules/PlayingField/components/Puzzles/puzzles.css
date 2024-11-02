@@ -18,3 +18,28 @@
     width: var(--tablet-width);
   }
 }
+
+.puzzle__body {
+  text-shadow: 1px 1px 4px rgb(15, 4, 51);
+}
+
+.painting {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  text-align: center;
+}
+
+.painting__text {
+  line-height: 150%;
+  color: var(--light-text-color);
+  font-size: 18px;
+}
+
+.painting__author,
+.painting__year {
+  font-weight: 300;
+  font-size: 14px;
+}
