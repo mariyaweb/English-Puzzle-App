@@ -1,6 +1,7 @@
 .checkBtns {
   display: flex;
-  justify-content: space-between;
+  justify-content: end;
+  gap: 20px;
   width: var(--desktop-width);
 }
 
@@ -14,6 +15,12 @@
 
 .checkBtns__check,
 .checkBtns__continue {
+  width: 94px;
+}
+
+.checkBtns__check,
+.checkBtns__continue,
+.checkBtns__round {
   color: var(--light-text-color);
   background-color: var(--btn-dark-bg-color);
 }
@@ -34,7 +41,9 @@
 }
 
 .checkBtns__check.hide,
-.checkBtns__continue.hide {
+.checkBtns__continue.hide,
+.checkBtns__complete.hide,
+.checkBtns__round.hide {
   display: none;
 }
 

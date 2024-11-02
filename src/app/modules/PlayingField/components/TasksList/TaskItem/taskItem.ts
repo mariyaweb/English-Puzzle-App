@@ -94,7 +94,7 @@ export default class TaskItem extends BaseElement {
   private checkSentence = (): void => {
     const isCorrectSentence = this.isCorrectSentence();
     if (isCorrectSentence) {
-      this.checkBtns.hideCheckBtn();
+      this.checkBtns.showContinueBtn();
       this.addStyle('row--correct');
     } else {
       this.showIncorrectWords();

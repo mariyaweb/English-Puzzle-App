@@ -45,13 +45,20 @@ export default class TasksList extends BaseElement {
     this.tasksList = list;
   }
 
-  private removeTaskList(): void {
-    this.children.forEach((child) => {
-      child.destroyChildren();
-    });
+  public removeTaskList(): void {
+    this.currentTask = 0;
+    this.currentTaskRows = [];
+    this.destroyChildren();
+    this.createEmptyRows();
   }
 
   public getCurrentTaskRow(): TaskItem {
     return this.currentTaskRows[this.currentTask];
+  }
+
+  public showImageInfo(url: string): void {
+    this.setAttributes({
+      style: `background-image: url(${url});`,
+    });
   }
 }
