@@ -3,7 +3,7 @@
   flex-direction: column;
   width: 360px;
   max-width: 100%;
-  gap: 25px;
+  gap: 15px;
 }
 
 .loginInputs__item label {
@@ -18,8 +18,17 @@
   padding: 12px 16px;
 }
 
-.loginInputs__item input:focus {
-  -webkit-box-shadow: 0px 0px 4px 3px rgba(82, 125, 240, 0.1) inset;
-  -moz-box-shadow: 0px 0px 4px 3px rgba(82, 125, 240, 0.1) inset;
-  box-shadow: 0px 0px 4px 3px rgba(82, 125, 240, 0.1) inset;
+.loginInputs__item input::placeholder {
+  color: #a4b4f7;
+  font-weight: 400;
+}
+
+.loginInputs__item--error input {
+  border: 1px solid red;
+}
+
+.loginInputs__item input:focus,
+.loginInputs__item--error input:focus {
+  box-shadow: 0px 0px 0px 0.5px var(--medium-text-color) inset;
+  border: 1px solid var(--medium-text-color);
 }

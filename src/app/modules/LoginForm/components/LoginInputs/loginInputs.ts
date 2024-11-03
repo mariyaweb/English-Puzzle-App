@@ -1,39 +1,73 @@
 import BaseElement from '../../../../ui/base-element/base-element';
-import { div, input, label } from '../../../../ui/base-tags/base-tags';
+import { TextError } from '../../loginForm-types';
+import InputContainer from './components/input/input';
 import './loginInputs.css';
 
 export default class LoginInputs extends BaseElement {
-  private inputName: BaseElement;
+  private inputName: InputContainer;
 
-  private inputSurname: BaseElement;
+  private inputSurname: InputContainer;
 
-  constructor() {
+  private submitButton: BaseElement;
+
+  constructor(submitButton: BaseElement) {
     super({ tag: 'div', styles: ['loginInputs__container'] });
-    this.inputName = this.createTextInput('name', 'Name');
-    this.inputSurname = this.createTextInput('surname', 'Surname');
+    this.submitButton = submitButton;
+    this.inputName = new InputContainer('name', 'Name');
+    this.inputSurname = new InputContainer('surname', 'Surname');
     this.addChildren([this.inputName, this.inputSurname]);
+    this.addHandlers();
   }
 
-  private createTextInput(labelName: string, placeholder: string): BaseElement {
-    const inputContainer = div({ styles: ['loginInputs__item'] });
-    const inputName = label({
-      text: placeholder,
-      attributes: {
-        for: labelName,
-      },
-    });
+  private addHandlers(): void {
+    this.inputName.inputField.setCallback('blur', this.checkInput);
+    this.inputSurname.inputField.setCallback('blur', this.checkInput);
+  }
 
-    const inputField: BaseElement = input({
-      attributes: {
-        id: labelName,
-        placeholder,
-        type: 'text',
-        name: 'name',
-        required: 'true',
-      },
-    });
+  private checkInput = (e: Event): void => {
+    this.submitButton.removeStyle('loginForm__btn--active');
+    const currentInput = e.target as HTMLInputElement;
+    const inputText = currentInput?.value;
+    if (currentInput && currentInput.name === 'name') {
+      this.validateInput(inputText, this.inputName, 2);
+    } else {
+      this.validateInput(inputText, this.inputSurname, 3);
+    }
+  };
 
-    inputContainer.addChildren([inputName, inputField]);
-    return inputContainer;
+  private validateInput(inputValue: string, input: InputContainer, minLength: number): void {
+    let errText = '';
+    const isEnglishLetters = this.validateEnglishLetters(inputValue);
+    if (inputValue.length === 0) {
+      errText = TextError.emptyField;
+    } else if (!isEnglishLetters) {
+      errText = TextError.noEnglishLetter;
+    } else if (inputValue[0] !== inputValue[0].toUpperCase()) {
+      errText = TextError.noFirstUpper;
+    } else if (!(inputValue.length > minLength)) {
+      errText = `${TextError.incorrectLength} ${minLength + 1}`;
+    }
+
+    if (errText.length === 0) {
+      input.removeStyle('loginInputs__item--error');
+    } else {
+      input.addStyle('loginInputs__item--error');
+    }
+    input.setErrorMessage(errText);
+    this.validateForm();
+  }
+
+  private validateEnglishLetters(inputText: string): boolean {
+    const regex = /^[a-zA-Z-]+$/;
+    return regex.test(inputText);
+  }
+
+  private validateForm(): void {
+    if (
+      !this.inputName.containsClass('loginInputs__item--error') &&
+      !this.inputName.containsClass('loginInputs__item--error')
+    ) {
+      this.submitButton.addStyle('loginForm__btn--active');
+    }
   }
 }

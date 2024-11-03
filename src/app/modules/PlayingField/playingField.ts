@@ -37,7 +37,7 @@ export default class PlayingField extends BaseElement {
 
   constructor() {
     super({ styles: ['game__field', 'field'] });
-    this.currentLevel = 2;
+    this.currentLevel = 1;
     this.currentRound = 0;
     this.currentTask = 0;
     this.maxRound = 50;
@@ -119,10 +119,6 @@ export default class PlayingField extends BaseElement {
     this.currentTask = 0;
     this.update(this.currentLevel, this.currentRound);
   };
-
-  // public goNextLevel(): void {
-
-  // }
 
   private cleanPreviousRound(): void {
     this.tasks.removeTaskList();

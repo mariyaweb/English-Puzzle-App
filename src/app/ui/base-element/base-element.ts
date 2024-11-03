@@ -120,6 +120,10 @@ export default class BaseElement<T extends HTMLElement = HTMLElement> {
     this.element.innerHTML = '';
   }
 
+  public containsClass(className: string): boolean {
+    return this.element.classList.contains(className);
+  }
+
   public get htmlTag(): HTMLElement {
     return this.element;
   }
