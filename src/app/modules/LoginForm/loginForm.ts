@@ -22,12 +22,21 @@ export default class LoginForm extends BaseElement {
     this.wrapper = div({ styles: ['wrapper', 'loginForm__wrapper'] });
     this.form = form({ styles: ['loginForm__form'] });
     this.header = h2({ text: 'Welcome!', styles: ['loginForm__header'] });
-    this.inputs = new LoginInputs();
     this.btn = button({ text: 'Log in', styles: ['btn', 'loginForm__btn'] });
+    this.inputs = new LoginInputs(this.btn);
     this.imgMan = new LoginImg();
 
     this.wrapper.addChildren([this.form, this.imgMan]);
     this.form.addChildren([this.header, this.inputs, this.btn]);
     this.append(this.wrapper);
+    this.addHandler();
   }
+
+  private addHandler(): void {
+    this.btn.setCallback('click', this.sendForm);
+  }
+
+  private sendForm = (e: Event): void => {
+    e.preventDefault();
+  };
 }

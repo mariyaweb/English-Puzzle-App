@@ -22,8 +22,8 @@ export default class App {
   public run(): void {
     this.page.setMainContent(new StartPage());
     this.page.setMainContent(new LoginForm());
-    this.page.setMainContent(this.game);
-    this.page.appendContent(this.selectGame);
+    // this.page.setMainContent(this.game);
+    // this.page.appendContent(this.selectGame);
     document.body.append(this.page.htmlTag);
   }
 }

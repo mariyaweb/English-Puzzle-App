@@ -65,8 +65,19 @@
   color: var(--light-text-color);
   padding: 12px 16px;
   border-radius: 8px;
+  cursor: default;
 }
 
-.loginForm__btn:hover {
+.loginForm__btn--active {
+  cursor: pointer;
+}
+
+.loginForm__btn--active:hover {
   background: var(--btn-active-color);
+}
+
+.loginInputs__error {
+  font-size: 12px;
+  color: red;
+  padding-top: 5px;
 }
