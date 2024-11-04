@@ -1,6 +1,6 @@
 import { getLevelInfo } from '../../api/getGameInfo';
 import { ILevel } from '../../api/getGameInfo-types';
-import EventManager from '../../event-manager/event-manager';
+import GameEventManager from '../../event-manager/game-event-manager';
 import nonNullable from '../../helpers/check-functions/non-nulable';
 import BaseElement from '../../ui/base-element/base-element';
 import { div, h2 } from '../../ui/base-tags/base-tags';
@@ -23,7 +23,7 @@ export default class SelectGame extends BaseElement {
 
   private close: BaseElement;
 
-  public observerManager: EventManager;
+  public observerManager: GameEventManager;
 
   constructor() {
     super({ styles: ['select'] });
@@ -38,7 +38,7 @@ export default class SelectGame extends BaseElement {
     this.addChildren([this.wrapper]);
     this.addHandlers();
     this.createGameList();
-    this.observerManager = new EventManager();
+    this.observerManager = new GameEventManager();
   }
 
   private async createGameList(): Promise<ILevel> {

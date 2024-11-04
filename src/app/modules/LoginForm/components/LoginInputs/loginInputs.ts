@@ -8,13 +8,19 @@ export default class LoginInputs extends BaseElement {
 
   private inputSurname: InputContainer;
 
-  private submitButton: BaseElement;
+  public submitButton: BaseElement;
+
+  public inputNameValue: string;
+
+  public inputSurnameValue: string;
 
   constructor(submitButton: BaseElement) {
     super({ tag: 'div', styles: ['loginInputs__container'] });
     this.submitButton = submitButton;
     this.inputName = new InputContainer('name', 'Name');
     this.inputSurname = new InputContainer('surname', 'Surname');
+    this.inputNameValue = '';
+    this.inputSurnameValue = '';
     this.addChildren([this.inputName, this.inputSurname]);
     this.addHandlers();
   }
@@ -25,12 +31,14 @@ export default class LoginInputs extends BaseElement {
   }
 
   private checkInput = (e: Event): void => {
-    this.submitButton.removeStyle('loginForm__btn--active');
-    const currentInput = e.target as HTMLInputElement;
+    this.disableBtn();
+    const currentInput = e.currentTarget as HTMLInputElement;
     const inputText = currentInput?.value;
     if (currentInput && currentInput.name === 'name') {
+      this.inputNameValue = inputText;
       this.validateInput(inputText, this.inputName, 2);
     } else {
+      this.inputSurnameValue = inputText;
       this.validateInput(inputText, this.inputSurname, 3);
     }
   };
@@ -65,9 +73,26 @@ export default class LoginInputs extends BaseElement {
   private validateForm(): void {
     if (
       !this.inputName.containsClass('loginInputs__item--error') &&
-      !this.inputName.containsClass('loginInputs__item--error')
+      !this.inputSurname.containsClass('loginInputs__item--error') &&
+      this.inputNameValue !== '' &&
+      this.inputSurnameValue !== ''
     ) {
-      this.submitButton.addStyle('loginForm__btn--active');
+      this.activeBtn();
     }
+  }
+
+  public cleanInputs(): void {
+    (this.inputName.inputField.htmlTag as HTMLInputElement).value = '';
+    (this.inputSurname.inputField.htmlTag as HTMLInputElement).value = '';
+    this.inputNameValue = '';
+    this.inputSurnameValue = '';
+  }
+
+  public disableBtn(): void {
+    this.submitButton.removeStyle('loginForm__btn--active');
+  }
+
+  public activeBtn(): void {
+    this.submitButton.addStyle('loginForm__btn--active');
   }
 }

@@ -1,6 +1,12 @@
+.header {
+  width: 100%;
+}
+
 .header__wrapper {
   position: relative;
-  padding: 20px 0 10px 0;
+  width: 100%;
+  max-width: 1200px;
+  padding: 20px 20px 40px 20px;
 }
 
 .header__logo {
@@ -14,11 +20,21 @@
   width: 24px;
   height: 24px;
   right: 0;
-  top: 0;
+  top: 20px;
+  transform: translate(-20px, 0%);
   background: url(../../../assets/icons/logout.svg) no-repeat center / cover;
   cursor: pointer;
+  transition: all 0.1s linear;
+}
+
+.header__logout:hover {
+  opacity: 0.8;
 }
 
 .header__logout.hidden {
   display: none;
+}
+
+.logo__img {
+  cursor: pointer;
 }

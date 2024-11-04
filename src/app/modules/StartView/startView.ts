@@ -12,15 +12,18 @@ export default class StartView extends BaseElement {
 
   private content: BaseElement;
 
+  public startBtn: BaseElement;
+
   constructor() {
     super({ tag: 'div', styles: ['wrapper', 'start__wrapper'] });
     this.content = div({ styles: ['start__content'] });
     this.welcome = new MainWelcome();
-    this.content.addChildren([new SloganImg(), mainTitle, this.welcome, mainSubtitle, startBtn]);
+    this.startBtn = startBtn;
+    this.content.addChildren([new SloganImg(), mainTitle, this.welcome, mainSubtitle, this.startBtn]);
     this.addChildren([this.content]);
   }
 
-  private addWelcome(name: string, surname: string): void {
+  public addWelcome(name: string, surname: string): void {
     this.welcome.setName(name, surname);
   }
 }

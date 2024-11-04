@@ -15,6 +15,7 @@ module.exports = {
     port: 3001,
     open: true,
     hot: true,
+    historyApiFallback: true,
   },
   entry: path.resolve(__dirname, './src/index.ts'),
   output: {
