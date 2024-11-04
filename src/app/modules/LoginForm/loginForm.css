@@ -78,6 +78,7 @@
 
 .loginInputs__error {
   font-size: 12px;
+  height: 15px;
   color: red;
   padding-top: 5px;
 }

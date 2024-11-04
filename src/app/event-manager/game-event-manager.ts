@@ -1,6 +1,6 @@
 import { UpdateFunc } from './event-manager-types';
 
-export default class EventManager {
+export default class GameEventManager {
   private listeners = new Set<UpdateFunc>();
 
   public subscribe(listener: UpdateFunc): void {
