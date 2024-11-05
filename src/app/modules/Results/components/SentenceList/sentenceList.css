@@ -1,0 +1,47 @@
+.sentences__items {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sentences__title {
+  font-weight: 300;
+  color: var(--light-text-color);
+  display: flex;
+  gap: 10px;
+  padding-bottom: 20px;
+}
+
+.sentences__title::before {
+  display: block;
+  content: '';
+  width: 24px;
+  height: 24px;
+}
+
+.sentences__doneList .sentences__title::before {
+  background: url(../../../../../assets/icons/done.svg) no-repeat center / cover;
+}
+
+.sentences__noDoneList .sentences__title::before {
+  background: url(../../../../../assets/icons/nodone.svg) no-repeat center / cover;
+}
+
+.sentences__sentence {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sentences__audio {
+  width: 24px;
+  height: 24px;
+  background: url('../../../../../assets/icons/volume.svg') no-repeat;
+  filter: invert(100%) brightness(100%);
+  cursor: pointer;
+}
+
+.sentences__text {
+  color: var(--light-text-color);
+  font-weight: 100;
+}
