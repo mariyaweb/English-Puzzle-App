@@ -2,6 +2,7 @@ import { getLevelInfo, getRoundInfo } from '../../api/getGameInfo';
 import { IRound, IWord } from '../../api/getGameInfo-types';
 import { BASE_IMG_LINK } from '../../const/const';
 import BaseElement from '../../ui/base-element/base-element';
+import Results from '../Results/results';
 import CheckBtns from './components/CheckBtns/checkBtns';
 import FieldHeader from './components/FieldHeader/fieldHeader';
 import HintSentence from './components/HintSentence/hintSentence';
@@ -35,6 +36,10 @@ export default class PlayingField extends BaseElement {
 
   private maxRound: number;
 
+  private results: Results;
+
+  private resultTaskInfo: boolean[];
+
   constructor() {
     super({ styles: ['game__field', 'field'] });
     this.currentLevel = 1;
@@ -46,9 +51,11 @@ export default class PlayingField extends BaseElement {
     this.checkBtns = new CheckBtns();
     this.tasks = new TasksList(this.checkBtns);
     this.puzzle = new Puzzle(this.tasks);
-    this.addChildren([this.title, this.sentence, this.tasks, this.puzzle, this.checkBtns]);
+    this.results = new Results();
+    this.addChildren([this.title, this.sentence, this.tasks, this.puzzle, this.checkBtns, this.results]);
     this.createRound();
     this.taskList = [];
+    this.resultTaskInfo = [];
     this.roundData = { name: '', cutSrc: '', author: '', year: '' };
     this.addHandlers();
   }
@@ -58,6 +65,8 @@ export default class PlayingField extends BaseElement {
     this.checkBtns.complete.setCallback('click', this.autoCompletePuzzle);
     this.checkBtns.continue.setCallback('click', this.continue);
     this.checkBtns.nextRound.setCallback('click', this.goNextRound);
+    this.checkBtns.showResult.setCallback('click', this.showResultsWindow);
+    this.results.continueBtn.setCallback('click', this.closeResultsWindow);
   }
 
   private checkSentence = (): void => {
@@ -139,6 +148,9 @@ export default class PlayingField extends BaseElement {
     currentRow.saveRow();
     if (!currentRow.htmlTag.classList.contains('row--incorrect')) {
       currentRow.addStyle('row--correct');
+      this.resultTaskInfo.push(true);
+    } else {
+      this.resultTaskInfo.push(false);
     }
 
     if (this.currentTask === 9) {
@@ -152,5 +164,15 @@ export default class PlayingField extends BaseElement {
       this.checkBtns.disabledCheckBtn();
       this.goNextRow();
     }
+  };
+
+  private showResultsWindow = (): void => {
+    this.results.showWindow(this.roundData, this.taskList, this.resultTaskInfo);
+  };
+
+  private closeResultsWindow = (): void => {
+    this.goNextRound();
+    this.results.hideWindow();
+    this.resultTaskInfo = [];
   };
 }

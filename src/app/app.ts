@@ -2,12 +2,12 @@ import TemplatePage from './pages/templatePage';
 import StartPage from './pages/start/startPage';
 import GamePage from './pages/game/gamePage';
 import SelectGame from './modules/SelectGame/selectGame';
-import '../style.css';
 import { Pages, RoutesPage } from './router/router-types';
 import BaseElement from './ui/base-element/base-element';
 import Router from './router/router';
 import State from './state/state';
 import LoginPage from './pages/login/loginPage';
+import '../style.css';
 
 export default class App {
   public state: State;

@@ -25,6 +25,11 @@
   background-color: var(--btn-dark-bg-color);
 }
 
+.checkBtns__result {
+  color: var(--light-text-color);
+  background-color: #368f45;
+}
+
 .checkBtns__check:hover,
 .checkBtns__continue:hover {
   background-color: var(--btn-active-color);
@@ -43,6 +48,7 @@
 .checkBtns__check.hide,
 .checkBtns__continue.hide,
 .checkBtns__complete.hide,
+.checkBtns__result.hide,
 .checkBtns__round.hide {
   display: none;
 }
