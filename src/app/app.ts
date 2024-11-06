@@ -35,6 +35,7 @@ export default class App {
     this.login = new LoginPage(this.router);
     this.selectGame.observerManager.subscribe(this.game.field.update);
     this.state.eventManager.subscribe(this.page.header.update);
+    this.state.eventManager.subscribe(this.game.field.resetPlayingField);
   }
 
   public run(): void {
