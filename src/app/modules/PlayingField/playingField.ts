@@ -113,6 +113,12 @@ export default class PlayingField extends BaseElement {
     this.createRound();
   };
 
+  public resetPlayingField = (isLogged: boolean): void => {
+    if (!isLogged) {
+      this.update(1, 0);
+    }
+  }
+
   public goNextRound = (): void => {
     const isLastLevel = this.currentLevel === NUMBER_OF_LEVELS;
     const isLastRound = this.currentRound === this.maxRound;
