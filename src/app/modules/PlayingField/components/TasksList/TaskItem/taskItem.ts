@@ -121,7 +121,7 @@ export default class TaskItem extends BaseElement {
   }
 
   public autoCompleteRow(puzzleBlock: Puzzle): void {
-    const initialPuzzle = puzzleBlock.initialPuzzles;
+    const initialPuzzle = puzzleBlock.initialPuzzles.map((puzzle) => puzzle.puzzle);
     const { movePuzzle } = puzzleBlock;
     this.moveAllPuzzleToPuzzleBlock(puzzleBlock);
     this.moveAllPuzzleToRow(initialPuzzle, movePuzzle);
@@ -254,10 +254,5 @@ export default class TaskItem extends BaseElement {
     prevColumn.column.htmlTag.replaceChildren(insertPuzzle as Node);
     prevColumn.puzzle = insertPuzzle;
     columnTo.puzzle = prevPuzzle;
-  }
-
-  public saveRow(): void {
-    const innerContent = this.htmlTag.innerHTML;
-    this.setTextContent(innerContent);
   }
 }

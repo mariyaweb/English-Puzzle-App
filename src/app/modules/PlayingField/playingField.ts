@@ -58,6 +58,24 @@ export default class PlayingField extends BaseElement {
     this.resultTaskInfo = [];
     this.roundData = { name: '', cutSrc: '', author: '', year: '' };
     this.addHandlers();
+    this.watchWindowWidth();
+  }
+
+  private watchWindowWidth(): void {
+    window.addEventListener('resize', (e: Event) => {
+      const currentWindowWidth = window.innerWidth;
+      const newWindowWidth = this.puzzle.getCurrentSizeGame(currentWindowWidth);
+      if (this.puzzle.gameSize !== newWindowWidth) {
+        this.puzzle.gameSize = newWindowWidth;
+        for (let task = 0; task <= this.currentTask; task += 1) {
+          this.puzzle.y = 0;
+          this.puzzle.puzzleBlocks[task].allPuzzles.forEach((puzzle, idx, arr) => {
+            this.puzzle.initialPuzzles = arr;
+            this.puzzle.changePuzzleStyles(puzzle, idx, task);
+          });
+        }
+      }
+    });
   }
 
   private addHandlers(): void {
@@ -117,7 +135,7 @@ export default class PlayingField extends BaseElement {
     if (!isLogged) {
       this.update(1, 0);
     }
-  }
+  };
 
   public goNextRound = (): void => {
     const isLastLevel = this.currentLevel === NUMBER_OF_LEVELS;
@@ -132,6 +150,7 @@ export default class PlayingField extends BaseElement {
       this.currentRound += 1;
     }
     this.currentTask = 0;
+    this.puzzle.puzzleBlocks = [];
     this.update(this.currentLevel, this.currentRound);
   };
 
@@ -151,7 +170,6 @@ export default class PlayingField extends BaseElement {
 
   private continue = (): void => {
     const currentRow = this.tasks.currentTaskRows[this.currentTask];
-    currentRow.saveRow();
     if (!currentRow.htmlTag.classList.contains('row--incorrect')) {
       currentRow.addStyle('row--correct');
       this.resultTaskInfo.push(true);

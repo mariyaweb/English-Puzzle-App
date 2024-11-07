@@ -6,23 +6,32 @@ import OnePuzzle from './OnePuzzle/onePuzzle';
 import './puzzles.css';
 import { div, p } from '../../../../ui/base-tags/base-tags';
 import { ShortLevelData } from '../../playingField-types';
+import { GameSizeKey, GameSizeValue, IPuzzleBlocks, IPuzzleInfo } from './puzzles-types';
 
-const PUZZLE_HEIGHT = 48.9;
-const CIRCRLE_OFFSET_Y = -15;
 const CIRCRLE_RADIUS = 10;
 
+const GAME_SIZES: Record<GameSizeKey, GameSizeValue> = {
+  941: { pictureW: 800, pictureH: 450, puzzleH: 43.9, circleOffset: -12 },
+  940: { pictureW: 700, pictureH: 395, puzzleH: 37.9, circleOffset: -8 },
+  820: { pictureW: 600, pictureH: 338, puzzleH: 31.9, circleOffset: -5 },
+};
+
 export default class Puzzle extends BaseElement {
-  private x: number;
+  public x: number;
 
-  private y: number;
+  public y: number;
 
-  private circleY: number;
+  public circleY: number;
 
-  public initialPuzzles: OnePuzzle[];
+  public initialPuzzles: IPuzzleInfo[];
 
-  public randomPuzzles: BaseElement[];
+  public randomPuzzles: IPuzzleInfo[];
 
   private tasks: TasksList;
+
+  public gameSize: GameSizeValue;
+
+  public puzzleBlocks: IPuzzleBlocks[];
 
   constructor(tasks: TasksList) {
     super({ styles: ['field__puzzle', 'puzzle'] });
@@ -31,7 +40,20 @@ export default class Puzzle extends BaseElement {
     this.circleY = 0;
     this.initialPuzzles = [];
     this.randomPuzzles = [];
+    this.puzzleBlocks = [];
     this.tasks = tasks;
+    this.gameSize = this.getCurrentSizeGame();
+  }
+
+  public getCurrentSizeGame(width?: number): GameSizeValue {
+    const windowWidth = width || window.innerWidth;
+    if (windowWidth <= 820) {
+      return GAME_SIZES[820];
+    }
+    if (windowWidth <= 940) {
+      return GAME_SIZES[940];
+    }
+    return GAME_SIZES[941];
   }
 
   public createPuzzles(url: string, sentence: string, task: number): void {
@@ -41,14 +63,24 @@ export default class Puzzle extends BaseElement {
 
     wordsArr.forEach((item, idx) => {
       const wordWidth = this.getWordLength(lettersLength, item.length, wordsArr.length);
-      const currentPuzzle = new OnePuzzle(item, wordWidth, url, this.x, this.y, task, idx);
+      const currentPuzzle = new OnePuzzle(item, wordWidth, url, this.x, this.y, task, idx, this.gameSize.pictureW);
       currentPuzzle.puzzleItem.setCallback('click', this.movePuzzle);
       this.addPuzzleDetails(currentPuzzle, idx, wordsArr.length - 1, wordWidth);
-      this.initialPuzzles.push(currentPuzzle);
+      this.initialPuzzles.push({
+        puzzle: currentPuzzle,
+        size: wordWidth,
+      });
+      if (idx === wordsArr.length - 1) {
+        this.puzzleBlocks.push({
+          task,
+          allPuzzles: this.initialPuzzles,
+        });
+      }
     });
 
     this.randomPuzzles = randomSortArr(this.initialPuzzles);
-    this.addChildren(this.randomPuzzles);
+    const randomPuzzlesPuzzle = this.randomPuzzles.map((puzzle) => puzzle.puzzle);
+    this.addChildren(randomPuzzlesPuzzle);
   }
 
   private getWordLength(sentenceLength: number, wordLength: number, totalWords: number): number {
@@ -62,7 +94,7 @@ export default class Puzzle extends BaseElement {
       basePuzzle.createRightCircle(circle[0], circle[1]);
     } else if (idx === wordsCount) {
       basePuzzle.createLeftAperture();
-      this.circleY -= 49;
+      this.circleY -= this.gameSize.puzzleH;
     } else {
       const circle = this.createCircleCoordinates(width);
       basePuzzle.createRightCircle(circle[0], circle[1]);
@@ -71,26 +103,49 @@ export default class Puzzle extends BaseElement {
     this.changeCoordinates(width);
   }
 
-  private changeCoordinates(width: number): void {
-    const widthMove = (width * 900) / 100;
+  public changeCoordinates(width: number): void {
+    const widthMove = (width * this.gameSize.pictureW) / 100;
     this.x -= widthMove;
   }
 
-  private createCircleCoordinates(width: number): number[] {
-    let moveX = (width * 900) / 100;
+  public createCircleCoordinates(width: number): number[] {
+    let moveX = (width * this.gameSize.pictureW) / 100;
     moveX = this.x - moveX + CIRCRLE_RADIUS;
     return [moveX, this.circleY];
   }
 
+  public changePuzzleStyles(puzzleInfo: IPuzzleInfo, idx: number, task: number): void {
+    if (idx === 0) {
+      this.x = 0;
+      this.y -= task * this.gameSize.puzzleH;
+      this.circleY = this.gameSize.circleOffset + this.y;
+      this.changeCircleStyles(puzzleInfo);
+    } else if (idx === this.initialPuzzles.length - 1) {
+      this.circleY -= this.gameSize.puzzleH;
+    } else {
+      this.changeCircleStyles(puzzleInfo);
+    }
+    puzzleInfo.puzzle.updateStyles(puzzleInfo.size, this.gameSize.pictureW, this.x, this.y);
+    this.changeCoordinates(puzzleInfo.size);
+  }
+
+  private changeCircleStyles(puzzleInfo: IPuzzleInfo): void {
+    const circleCoordinates = this.createCircleCoordinates(puzzleInfo.size);
+
+    const circleEl = puzzleInfo.puzzle.children[0].children[1];
+    const circleStyle = puzzleInfo.puzzle.createBackground(circleCoordinates[0], circleCoordinates[1]);
+    circleEl.setAttribute('style', circleStyle);
+  }
+
   private removeOldPuzzles(): void {
-    this.destroyChildren();
+    this.htmlTag.innerHTML = '';
     this.x = 0;
     if (this.tasks.currentTask > 0) {
-      this.y -= PUZZLE_HEIGHT;
+      this.y -= this.gameSize.puzzleH;
     } else {
       this.y = 0;
     }
-    this.circleY = CIRCRLE_OFFSET_Y + this.y;
+    this.circleY = this.gameSize.circleOffset + this.y;
     this.initialPuzzles = [];
     this.randomPuzzles = [];
   }
@@ -119,8 +174,8 @@ export default class Puzzle extends BaseElement {
   public moveToPuzzleField(puzzle: Element, puzzleData: string, row: TaskItem, indexPuzzleContainer: number): void {
     for (let i = 0; i < this.randomPuzzles.length; i += 1) {
       const puzzleWord = this.randomPuzzles[i];
-      const puzzleContainer = puzzleWord.htmlTag;
-      const initialData = puzzleWord.children[0].getAttribute('data-puzzle');
+      const puzzleContainer = puzzleWord.puzzle.htmlTag;
+      const initialData = puzzleWord.puzzle.children[0].getAttribute('data-puzzle');
       const isInitialPuzzlePosition = initialData === puzzleData;
       if (!puzzleContainer.hasChildNodes() && isInitialPuzzlePosition) {
         puzzleContainer.append(puzzle);

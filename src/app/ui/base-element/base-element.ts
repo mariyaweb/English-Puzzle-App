@@ -81,7 +81,7 @@ export default class BaseElement<T extends HTMLElement = HTMLElement> {
     this.element.textContent = '';
   }
 
-  public setCallback(eventType: string, callback: ElementCallback) {
+  public setCallback(eventType: string, callback: ElementCallback): void {
     this.element.addEventListener(eventType, callback);
   }
 
