@@ -5,6 +5,18 @@
   width: var(--desktop-width);
 }
 
+@media (max-width: 940px) {
+  .checkBtns {
+    width: var(--tablet-width);
+  }
+}
+
+@media (max-width: 820px) {
+  .checkBtns {
+    width: var(--mobile-xl);
+  }
+}
+
 .checkBtns__btn {
   cursor: pointer;
   padding: 10px 20px;

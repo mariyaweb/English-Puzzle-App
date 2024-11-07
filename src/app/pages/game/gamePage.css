@@ -1,3 +1,7 @@
+.game {
+  padding-bottom: 120px;
+}
+
 .game__wrapper {
   display: flex;
   flex-direction: column;

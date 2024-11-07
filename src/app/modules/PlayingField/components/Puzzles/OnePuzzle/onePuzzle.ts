@@ -11,6 +11,8 @@ export default class OnePuzzle extends BaseElement {
 
   private url: string;
 
+  private widthPicture: number;
+
   constructor(
     txt: string,
     widthContainer: number,
@@ -19,8 +21,10 @@ export default class OnePuzzle extends BaseElement {
     positionY: number,
     task: number,
     index: number,
+    widthPicture: number,
   ) {
     super({ styles: ['puzzle__container'] });
+    this.widthPicture = widthPicture;
     this.puzzleItem = div({ styles: ['puzzle__item'] });
     this.puzzleBody = div({ styles: ['puzzle__body'], text: txt });
     this.url = url;
@@ -32,7 +36,7 @@ export default class OnePuzzle extends BaseElement {
   }
 
   private createPuzzleStyles(width: number, task: number, index: number): void {
-    const widthPx = (width * 900) / 100;
+    const widthPx = (width * this.widthPicture) / 100;
     this.puzzleItem.setAttributes({
       style: `min-width: ${widthPx}px; max-width: ${widthPx}px`,
       draggable: 'true',
@@ -61,7 +65,7 @@ export default class OnePuzzle extends BaseElement {
     this.puzzleItem.append(circle);
   }
 
-  private createBackground(positionX: number, positionY: number): string {
+  public createBackground(positionX: number, positionY: number): string {
     return `
       background-image: url(${this.url});
       background-position: ${positionX}px ${positionY}px;
@@ -70,8 +74,6 @@ export default class OnePuzzle extends BaseElement {
 
   private addHandlers(): void {
     this.puzzleItem.setCallback('dragstart', (e: Event) => this.dragStart(e as DragEvent));
-    this.puzzleItem.setCallback('drag', () => this.drag());
-    this.puzzleItem.setCallback('dragend', () => this.dragEnd());
   }
 
   private dragStart(e: DragEvent): void {
@@ -85,11 +87,21 @@ export default class OnePuzzle extends BaseElement {
     }
   }
 
-  private drag(): void {
-    // console.log('в процессе');
-  }
+  public updateStyles(wordWidth: number, newWidthPicture: number, positionX: number, positionY: number): void {
+    this.widthPicture = newWidthPicture;
+    const widthPx = (wordWidth * this.widthPicture) / 100;
+    this.setAttributes({
+      style: `min-width: ${widthPx}px; max-width: ${widthPx}px`,
+    });
 
-  private dragEnd(): void {
-    // console.log('завершилось');
+    this.puzzleItem.setAttributes({
+      style: `min-width: ${widthPx}px; max-width: ${widthPx}px`,
+    });
+
+    this.itemStyle = this.createBackground(positionX, positionY);
+
+    this.puzzleBody.setAttributes({
+      style: this.itemStyle,
+    });
   }
 }
