@@ -11,7 +11,7 @@ export default class Router {
     this.routes = routes;
     this.routeChangeListener();
     document.addEventListener('DOMContentLoaded', () => {
-      this.navigate();
+      this.navigate('start');
     });
   }
 
@@ -26,7 +26,6 @@ export default class Router {
 
   public navigate(path: string = ''): void {
     const newPath: string = path || window.location.pathname.slice(1).toLowerCase();
-
     window.history.pushState({ path: newPath }, newPath, `/${newPath}`);
     this.updatePage(newPath);
   }
@@ -45,7 +44,6 @@ export default class Router {
         route = this.state.isLogged() ? Pages.game : Pages.login;
       default:
     }
-
     this.routes[route]();
   }
 }
